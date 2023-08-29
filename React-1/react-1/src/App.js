@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Mydp />
+        <Mydp link="https://raw.githubusercontent.com/amilali/CrowdXfund/main/img/circular%20dp.png" />
         <img src={logo} className="App-logo" alt="logo" />
         <p>
          Welcome To Amil's PC
@@ -19,7 +19,7 @@ function App() {
         >
           www.amilali.engineer
         </a>
-        <Hedd />
+        <Hedd name="Amil Ali" />
       </header>
     </div>
   );

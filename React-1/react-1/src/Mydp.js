@@ -1,18 +1,15 @@
-
- export function Hedd(){
+export function Hedd(props){
     return(
-        <h2>Amil Ali</h2>
+        <h2>{props.name}</h2>
     );
  }
  
- function Mydp(){
+ function Mydp(props){
     return(
         <div>
-        <img src="https://raw.githubusercontent.com/amilali/CrowdXfund/main/img/circular%20dp.png" alt="dp" height="100px" opacity="1"/>
+        <img src={props.link} alt="dp" height="100px" opacity="1"/>
         <Hedd />        
         </div>
-
-        
     );
 }
 
