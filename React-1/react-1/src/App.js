@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Mydp from './Mydp';
+import Mydp, { Hedd } from './Mydp';
 
 function App() {
   return (
@@ -19,6 +19,7 @@ function App() {
         >
           www.amilali.engineer
         </a>
+        <Hedd />
       </header>
     </div>
   );
