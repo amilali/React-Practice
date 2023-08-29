@@ -1,20 +1,26 @@
+*{
+  overflow: hidden;
+}
+
 .App {
   text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
+  position: absolute;
+  opacity: 0.1;
+  height: 80vmin;
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin infinite 05s linear;
   }
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #080d15;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
