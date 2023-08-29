@@ -1,10 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
+import Mydp from './Mydp';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <Mydp />
         <img src={logo} className="App-logo" alt="logo" />
         <p>
          Welcome To Amil's PC
