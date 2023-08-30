@@ -19,7 +19,7 @@ function App() {
         >
           www.amilali.engineer
         </a>
-        <Hedd name="Amil Ali" />
+        <Hedd name="Happy Coding;)" />
       </header>
     </div>
   );

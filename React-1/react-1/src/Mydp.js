@@ -8,8 +8,7 @@ function Mydp({ link, name }){
     return(
         <>
         <img src={link} alt="dp" height="100px" opacity="1"/>
-        <h1>{ name }</h1>
-        <Hedd />        
+        <h1>{ name }</h1>      
         </>
     );
 }
