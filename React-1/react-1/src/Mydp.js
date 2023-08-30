@@ -4,10 +4,11 @@ export function Hedd(props){
     );
  }
  
-function Mydp(props){
+function Mydp({ link, name }){   
     return(
         <>
-        <img src={props.link} alt="dp" height="100px" opacity="1"/>
+        <img src={link} alt="dp" height="100px" opacity="1"/>
+        <h1>{ name }</h1>
         <Hedd />        
         </>
     );

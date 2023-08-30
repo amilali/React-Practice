@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Mydp link="https://raw.githubusercontent.com/amilali/CrowdXfund/main/img/circular%20dp.png" />
+        <Mydp link="https://raw.githubusercontent.com/amilali/CrowdXfund/main/img/circular%20dp.png" name = "Amil Ali" />
         <img src={logo} className="App-logo" alt="logo" />
         <p>
          Welcome To Amil's PC
