@@ -5,7 +5,7 @@ const List = ({items}) =>{
            {
             // eslint-disable-next-line react/prop-types
             items.map((e)=>(
-                <li>{e}</li>
+                <li key = {e}>{e}</li>
             ))
            }
         </ul>
