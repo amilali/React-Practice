@@ -4,7 +4,12 @@ let Dp =(props)=>{
     const {src,text} = props;
     return(
         <>
-        <img src={src}/>
+        <img src={src} style={{
+            borderRadius : '100px',
+            width: '100px',
+            height: '100px',
+            objectFit: 'cover'
+        }}/>
         <h1>{text}</h1>
         </>
     );
