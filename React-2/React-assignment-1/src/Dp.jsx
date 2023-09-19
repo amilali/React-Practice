@@ -4,7 +4,7 @@ let Dp =(props)=>{
     const {src,text} = props;
     return(
         <>
-        <img src={src} style={{
+        <img src={src} title= "Amil's Dp" style={{
             borderRadius : '100px',
             width: '100px',
             height: '100px',
