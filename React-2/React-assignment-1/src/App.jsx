@@ -1,4 +1,4 @@
-import Person from './person'
+import Person ,{Amil} from './person'
 import Button from './Button'
 import Header from './Header';
 import List from './List';
@@ -15,14 +15,23 @@ function App() {
   const Listitem = ["A"];
   return (
     <>
+    
     <Dp src ="https://avatars.githubusercontent.com/u/66510886?s=400&u=e4e0503f0fd1f1632f748d2906c18873d505f37a&v=4" text="Amil"/>
 
     <Header title="Hello React!" />
+
      <Person name="Amil Ali" age="23" />
+
      <Button text="Click Here" onClick={Namealert} />
+
      <List items={Listitem} />
 
      <Counter />
+
+     <Amil>
+    <h1>Passing Element as a children to props</h1>
+    </Amil>
+
     </>
   )
 }
