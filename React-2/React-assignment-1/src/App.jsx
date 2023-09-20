@@ -8,6 +8,14 @@ import Dp from './Dp';
 
 
 function App() {
+
+
+  let obj = {
+    src : 'https://res.cloudinary.com/djcmgdn0x/image/upload/v1688573174/samples/landscapes/architecture-signs.jpg',
+    text: 'Sign Board'
+
+}
+
   function Namealert(){
     const name = prompt("Enter your name");
     alert(`Hello! ${name}`);
@@ -15,7 +23,7 @@ function App() {
   const Listitem = ["A"];
   return (
     <>
-    
+
     <Dp src ="https://avatars.githubusercontent.com/u/66510886?s=400&u=e4e0503f0fd1f1632f748d2906c18873d505f37a&v=4" text="Amil"/>
 
     <Header title="Hello React!" />
@@ -32,6 +40,8 @@ function App() {
     <h1>Passing Element as a children to props</h1>
     </Amil>
 
+
+    <Dp  {...obj} />
     </>
   )
 }
