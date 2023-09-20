@@ -12,7 +12,7 @@ let Dp =(props)=>{
         }}/>
         <h1>{text}</h1>
         </>
-    );
+    ); 
 }
 
 export default Dp;
