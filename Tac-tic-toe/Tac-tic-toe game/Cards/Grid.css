@@ -6,3 +6,9 @@
     justify-content: space-between;
     align-items: space-between;
 }
+.turnHeader{
+    color: white;
+    font-size: 32px;
+    text-align: center;
+    margin: 12px;
+}

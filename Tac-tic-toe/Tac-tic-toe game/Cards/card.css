@@ -9,3 +9,8 @@
     align-items: center;
     border-radius: 10%;
 }
+
+.card:hover{
+    color: aliceblue;
+    transform: scale(1.2);
+}

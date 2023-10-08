@@ -1,20 +1,19 @@
 import Icons from "../icons/icons";
 import "../Cards/card.css";
-function Cards({player}){
+function Cards({player, onPlay, index}){
     let x = <Icons />;
     if(player == 'X')
     {
         x = <Icons names = "cross" />
     }
-    if(player == 'O')
+    else if(player == 'O')
     {
         x = <Icons names = "circle" />
     }
 
 
     return(
-        <div className="card"> {x}</div>
-           
+        <div className="card" onClick={()=>onPlay(index)}> {x}</div>     
     );
 }
 export default Cards;
