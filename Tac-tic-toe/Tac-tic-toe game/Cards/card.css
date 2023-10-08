@@ -1,9 +1,9 @@
 .card{
     padding: 1rem;
-    border: 1px solid black;
+    border: 1px solid rgb(0, 0, 0);
     background-color: var(--yellow);
-    height:100px;
-    width: 100px;
+    height:80px;
+    width: 80px;
     display: flex;
     justify-content: center;
     align-items: center;

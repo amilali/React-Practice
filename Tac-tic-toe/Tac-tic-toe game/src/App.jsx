@@ -1,17 +1,16 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import Cards from '../Cards/Cards'
 import './App.css'
+import Grid from '../Cards/Grid'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-     <h1>Hello</h1>
-     <Cards player="X"/>
+      <Grid numberOfGrid={9} />
     </>
   )
 }
 
-export default App
+export default App;
