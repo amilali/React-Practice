@@ -24,7 +24,7 @@ function App() {
   return (
     <>
 
-    <Dp src ="https://avatars.githubusercontent.com/u/66510886?s=400&u=e4e0503f0fd1f1632f748d2906c18873d505f37a&v=4" text="Amil"/>
+    <Dp src ="https://avatars.githubusercontent.com/u/66510886?s=400&u=e4e0503f0fd1f1632f748d2906c18873d505f37a&v=4" text="Amil Ali"/>
 
     <Header title="Hello React!" />
 
@@ -46,4 +46,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
