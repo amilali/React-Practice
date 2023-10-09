@@ -20,7 +20,7 @@ function Grid({numberOfGrid}){
 
         if(win){setWinner(win);}
 
-        setBoard({...Board})
+        setBoard([...Board]);
         setTurn(!turn);
     }
 
@@ -28,17 +28,21 @@ function Grid({numberOfGrid}){
         <div className="grid-container">
             {
               
-                winner && (  <>
-                <h1 className="winnerh1">Winner is: {winner}</h1>
-                <button className="reset">Reset</button>
-                </>
+                winner && ( <><div className="winner-con">
+                <h1 className="winnerh1">Winner is: {winner}</h1></div>
+                <button className="reset" >Reset</button>
+                </> 
                 )
                
             }
-            <h1 className="turnHeader"> Current Turn: {(turn) ? "O": "X"}</h1>  
-            <div className="grid">
+            {
+                (!winner) && (<> <h1 className="turnHeader"> Current Turn: {(turn) ? "O": "X"}</h1> 
+                 <div className="grid">
             {Board.map((e,i)=><Cards key={i} onPlay = {play}  player={e} index={i} />)}
-        </div>
+        </div> </>)
+            }
+           
+           
         
         </div>
 

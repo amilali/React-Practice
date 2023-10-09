@@ -12,3 +12,21 @@
     text-align: center;
     margin: 12px;
 }
+.winner-con{
+    display: flex;
+    justify-content: center;
+}
+.winnerh1{
+    color: rgb(146, 255, 146);
+    text-align: center;
+    font-size: 42px;
+    display: block;
+}
+.reset{
+    margin-left: 40%;
+    color: white;
+    background-color: red;
+    border: 1px solid black;
+    border-radius: 20%;
+    padding:8px;
+}
