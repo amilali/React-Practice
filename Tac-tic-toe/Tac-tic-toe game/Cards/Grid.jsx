@@ -30,7 +30,7 @@ function Grid({numberOfGrid}){
               
                 winner && ( <><div className="winner-con">
                 <h1 className="winnerh1">Winner is: {winner}</h1></div>
-                <button className="reset" >Reset</button>
+                <button className="reset">Reset</button>
                 </> 
                 )
                
