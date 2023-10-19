@@ -1,6 +1,6 @@
 import Icons from "../icons/icons";
 import "../Cards/card.css";
-function Cards({player, onPlay, index}){
+function Cards({player, onPlay, index, gameEnd}){
     let x = <Icons />;
     if(player == 'X')
     {
@@ -13,7 +13,7 @@ function Cards({player, onPlay, index}){
 
 
     return(
-        <div className="card" onClick={()=>onPlay(index)}> {x}</div>     
+        <div className="card" onClick={()=> !gameEnd && player == "" && onPlay(index)}> {x}</div>     
     );
 }
 export default Cards;

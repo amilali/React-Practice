@@ -38,7 +38,7 @@ function Grid({numberOfGrid}){
             {
                 (!winner) && (<> <h1 className="turnHeader"> Current Turn: {(turn) ? "O": "X"}</h1> 
                  <div className="grid">
-            {Board.map((e,i)=><Cards key={i} onPlay = {play}  player={e} index={i} />)}
+            {Board.map((e,i)=><Cards gameEnd={(winner)? true : false} key={i} onPlay = {play}  player={e} index={i} />)}
         </div> </>)
             }
            
