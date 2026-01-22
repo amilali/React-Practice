@@ -1,7 +1,7 @@
 // App.jsx - Main entry point with routing setup
 // Yeh file app ke sab routes define karti hai aur navigation handle karti hai.
 import CardList from './components/CardList'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, NavLink } from 'react-router-dom';
 import Headers from './components/Headers.jsx';
 import DisplayCard from './components/DisplayCard.jsx';
 import About from './components/About.jsx';
@@ -11,9 +11,10 @@ function App() {
       <BrowserRouter>
         <Headers>
           <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about/Amil/Ali"> About</Link>
-            <Link to="/contact"> Contact</Link>
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/about/Amil/Ali" style={({ isActive }) => ({ color: isActive ? 'red' : 'white' })}
+            > About</NavLink>
+            <NavLink to="/contact"> Contact</NavLink>
           </nav>
         </Headers>
         <Routes>

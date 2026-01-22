@@ -240,13 +240,21 @@ Jab URL mein filters hote hain (e.g. `?search=react&sort=latest`). Isse hum quer
 import { useSearchParams } from 'react-router-dom';
 
 const SearchPage = () => {
+  // searchParams se read karte hain, setSearchParams se update karte hain
   const [searchParams, setSearchParams] = useSearchParams();
-  const query = searchParams.get('filter'); // URL se 'filter' ki value milegi
+  
+  // URL agar aisa hai: /search?filter=top&sort=asc
+  const filterValue = searchParams.get('filter'); // Output: "top"
 
   return (
-    <button onClick={() => setSearchParams({ filter: 'top' })}>
-      Top Filter Lagao
-    </button>
+    <div>
+      <p>Current Filter: {filterValue}</p>
+      
+      {/* Button click karne par URL ban jayega: /search?filter=top */}
+      <button onClick={() => setSearchParams({ filter: 'top' })}>
+        Top Filter Lagao
+      </button>
+    </div>
   );
 }
 ```
