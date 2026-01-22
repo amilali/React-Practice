@@ -277,3 +277,41 @@ const HeavyComponent = React.lazy(() => import('./HeavyComponent'));
   } />
 </Routes>
 ```
+
+### E. `createBrowserRouter` (New Way of Routing)
+**Concept:**
+Aajkal `BrowserRouter` components (`<Routes>`) ki jagah hum objects ke through routing define karte hain. Yeh naye React Router (v6.4+) ka standard tarika hai. Isse Data Loading (`loader`) aur Form Actions (`action`) features milte hain jo purane tarike mein nahi the.
+
+**Example Code:**
+```jsx
+// main.jsx or App.jsx
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+// 1. Router Object Create Karo
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/about",
+    element: <About />,
+    // Data loader check karo (Advanced feature)
+    loader: async () => {
+       return fetch('/api/user');
+    },
+  },
+]);
+
+// 2. RouterProvider Pass Karo
+function App() {
+  return (
+    <RouterProvider router={router} />
+  );
+}
+```
+
+**Fayde (Benefits):**
+1. **Parallel Data Loading:** Page render hone se pehle hi data fetch ho jata hai (`loader` use karke).
+2. **Error Boundary:** Har route ka apna Error page ho sakta hai (`errorElement`).
+3. **Clean Code:** JSX nesting ki jagah clean JavaScript objects.
