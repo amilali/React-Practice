@@ -105,15 +105,26 @@ const Todo = () => {
 
 const [data, setData] = useState<TodoData[]>([]);
 const [input, setInput] = useState<string>('');
+const [edit, setEdit] = useState<number | null>(null)
 
 
 const handleSubmit = ():void =>{
   if(!input.trim()) return;
 
-  setData(prev => ([
-    ...prev,
-    {id:Date.now(),todo:input}
-  ]));
+  if(edit!==null){
+    setData(prev=>
+      prev.map((e)=>
+        e.id === edit ? {...e, todo: input} : e   
+      )
+    )
+    setEdit(null);
+  }
+  else{
+    setData(prev => ([
+      ...prev,
+      {id:Date.now(),todo:input}
+    ]));
+  }
   setInput('');
 }
 
@@ -125,17 +136,23 @@ const handleDelete = (todoIndex:number):void =>{
   setData(prev=>prev.filter((item)=>item.id!=todoIndex)
   )
 }
-
+const handleEdit = (item:TodoData):void =>{
+  setEdit(item.id);
+  setInput(item.todo)
+}
   return (
     <div className="todo">
         <center><h1>Todo</h1></center>
         <div className="todoList">
           <input value={input} type="text" onChange={handleChange}/>
-          <button onClick={handleSubmit}>Add</button>
+          <button onClick={handleSubmit}>{edit!==null ? 'Update': 'Add'}</button>
         </div>
           {data.map((e)=><div className="todoItem" key={e.id}>
             <span>{e.todo}</span>
-            <button onClick={()=>handleDelete(e.id)}>Delete</button>
+            <span>
+              <button onClick={()=>handleDelete(e.id)}>Delete</button>
+              <button onClick={()=>handleEdit(e)}>Edit</button>
+            </span>
           </div>)}
     </div>
   )
