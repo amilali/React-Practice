@@ -16,6 +16,7 @@ let user1: User = {id: "3fwqefqewf", name: 'Amil', created: new Date(), email: '
 
 
 
+
 // good counter part of 'any
 const user:unknown = "1";
 const newUer = (user as string); // we are using assertion
