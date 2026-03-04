@@ -26,6 +26,10 @@ const htmlContent = `<!DOCTYPE html>
     <!-- DOMPurify for security -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
 
+    <!-- Highlight.js -->
+    <link id="hljs-theme" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
     <style>
         :root {
             /* Light Mode Variables */
@@ -175,7 +179,12 @@ const htmlContent = `<!DOCTYPE html>
         pre code {
             background-color: transparent;
             padding: 0;
-            color: var(--text-code);
+        }
+
+        /* Overwrite hljs background to match our theme */
+        .hljs {
+            background: transparent !important;
+            padding: 0 !important;
         }
 
         /* Details & Summary */
@@ -330,12 +339,16 @@ const htmlContent = `<!DOCTYPE html>
 
         function applyTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme);
+            const hljsThemeLink = document.getElementById('hljs-theme');
+
             if(theme === 'dark') {
                 themeIcon.innerHTML = sunIcon;
                 themeText.textContent = 'Light Mode';
+                if(hljsThemeLink) hljsThemeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css';
             } else {
                 themeIcon.innerHTML = moonIcon;
                 themeText.textContent = 'Dark Mode';
+                if(hljsThemeLink) hljsThemeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
             }
             localStorage.setItem('theme', theme);
         }
@@ -394,6 +407,11 @@ const htmlContent = `<!DOCTYPE html>
             // Parse Markdown. DOMPurify ensures it is safe.
             const rawHtml = marked.parse(rawMd);
             docContent.innerHTML = DOMPurify.sanitize(rawHtml, { ADD_TAGS: ['details', 'summary'] });
+
+            // Apply Highlight.js to all code blocks after rendering
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
         }
 
         // Router function
