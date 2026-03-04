@@ -176,6 +176,36 @@
             padding: 0 !important;
         }
 
+        /* Copy Button Styles */
+        .code-container {
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: var(--bg-body);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-main);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease, background-color 0.2s ease;
+        }
+
+        .code-container:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--border-subtle);
+            color: var(--text-heading);
+        }
+
         /* Details & Summary */
         details {
             background-color: var(--bg-details);
@@ -399,7 +429,37 @@
 
             // Apply Highlight.js to all code blocks after rendering
             document.querySelectorAll('pre code').forEach((block) => {
+                // Grab the raw text before highlight js touches it
+                const rawText = block.innerText || block.textContent;
+                
                 hljs.highlightElement(block);
+
+                // Add Copy Button
+                const pre = block.parentElement;
+                if(pre && pre.tagName === 'PRE') {
+                    // Wrap pre in a relative container
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'code-container';
+                    pre.parentNode.insertBefore(wrapper, pre);
+                    wrapper.appendChild(pre);
+                    
+                    const copyBtn = document.createElement('button');
+                    copyBtn.className = 'copy-btn';
+                    copyBtn.textContent = 'Copy';
+                    
+                    copyBtn.addEventListener('click', () => {
+                        navigator.clipboard.writeText(rawText).then(() => {
+                            copyBtn.textContent = 'Copied!';
+                            setTimeout(() => {
+                                copyBtn.textContent = 'Copy';
+                            }, 2000);
+                        }).catch(err => {
+                            console.error('Failed to copy text: ', err);
+                        });
+                    });
+                    
+                    wrapper.appendChild(copyBtn);
+                }
             });
         }
 
