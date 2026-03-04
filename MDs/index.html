@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Prep Hub</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Marked.js for parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- DOMPurify for security -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+
+    <style>
+        :root {
+            /* Light Mode Variables */
+            --bg-body: #f8fafc;
+            --bg-container: #ffffff;
+            --text-main: #334155;
+            --text-heading: #0f172a;
+            --text-muted: #64748b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --border-subtle: #e2e8f0;
+            --bg-code: #f1f5f9;
+            --text-code: #0f172a;
+            --bg-details: #f8fafc;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Variables - Focus Reading Black */
+            --bg-body: #050505;
+            --bg-container: #121212; 
+            --text-main: #e2e8f0;
+            --text-heading: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #60a5fa;
+            --accent-hover: #93c5fd;
+            --border-subtle: #27272a;
+            --bg-code: #1f2937;
+            --text-code: #e2e8f0;
+            --bg-details: #1a1a1a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.7;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--bg-container);
+            padding: 3rem 4rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        [data-theme="dark"] .container {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        /* Navbar & Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        h1, h2, h3, h4, h5 {
+            color: var(--text-heading);
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        h1 { font-size: 2.25rem; margin-top: 0; }
+        h2 { font-size: 1.75rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.25rem; }
+
+        p {
+            margin-bottom: 1.2rem;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: transparent;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-heading);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--border-subtle);
+        }
+
+        /* Code & Pre */
+        code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85em;
+            background-color: var(--bg-code);
+            color: var(--text-code);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+        }
+
+        pre {
+            background-color: var(--bg-code);
+            padding: 1.25rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: var(--text-code);
+        }
+
+        /* Details & Summary */
+        details {
+            background-color: var(--bg-details);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        details[open] {
+            padding-bottom: 1.5rem;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-heading);
+            outline: none;
+            display: flex;
+            align-items: center;
+        }
+
+        summary::marker {
+            color: var(--accent);
+        }
+
+        details > *:not(summary) {
+            margin-top: 1rem;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Home Page List styles */
+        .topic-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .topic-list li {
+            margin-bottom: 1rem;
+        }
+
+        .topic-card {
+            display: block;
+            padding: 1.5rem;
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background-color: var(--bg-body);
+        }
+
+        .topic-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            text-decoration: none;
+        }
+
+        [data-theme="dark"] .topic-card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+        }
+
+        .topic-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--accent);
+            border: none;
+        }
+
+        .topic-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+        }
+        
+        /* Hide content until JS loads */
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <button id="back-btn" class="btn" style="display: none;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    Back to Hub
+                </button>
+            </div>
+            
+            <button id="theme-button" class="btn">
+                <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <span id="theme-text">Dark Mode</span>
+            </button>
+        </header>
+
+        <!-- Home View -->
+        <main id="home-view" class="page active">
+            <h1>Interview Preparation Hub</h1>
+            <p>Welcome to your personal study dashboard. Select a topic below to begin reviewing tricky interview questions, concepts, and code output.</p>
+            
+            <ul class="topic-list" id="topic-list">
+                <!-- Injected via JS -->
+            </ul>
+        </main>
+
+        <!-- Document View -->
+        <main id="doc-view" class="page">
+            <div id="doc-content"></div>
+        </main>
+    </div>
+
+    <script>
+        // Data injected from build script
+        const markdownFiles = {"js_hoisting_scope_interview_questions.md":"# JavaScript Interview Prep: 53 Tricky Questions on `var`, `let`, and `const` (Scope & Hoisting)\n\nThis document contains a comprehensive list of 53 tricky JavaScript interview questions gathered from real-world tech interviews, focused on the differences, scope, and hoisting behaviors of `var`, `let`, and `const`, complete with outputs and explanations.\n\n---\n\n## 1. The Classic `setTimeout` Loop\n\n**Question:** What is the output of the following code?\n\n```javascript\nfor (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 1);\n}\n\nfor (let j = 0; j < 3; j++) {\n  setTimeout(() => console.log(j), 1);\n}\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n3\n3\n3\n0\n1\n2\n```\n\n**Explanation:**\n\n- `var` is function-scoped (or globally scoped here). The `setTimeout` callbacks all close over the *same* variable `i`. By the time the callbacks execute, the loop has finished and `i` is `3`.\n- `let` is block-scoped. A new lexical environment is created for each iteration of the loop, so each `setTimeout` callback captures a distinct `j` variable.\n\n</details>\n---\n\n## 2. Temporal Dead Zone (TDZ) Basics\n\n**Question:** What will the following log?\n\n```javascript\nconsole.log(a);\nconsole.log(b);\nvar a = 10;\nlet b = 20;\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nundefined\nReferenceError: Cannot access 'b' before initialization\n```\n\n**Explanation:**\n\n- `var` is hoisted and initialized with `undefined`.\n- `let` (and `const`) are hoisted but remain uninitialized in the \"Temporal Dead Zone\" (TDZ) until their actual declaration line is executed.\n\n</details>\n---\n\n## 3. Variable Shadowing\n\n**Question:** What is the output of the following?\n\n```javascript\nvar x = 100;\nlet y = 200;\n\nfunction shadow() {\n  var x = 10;\n  let y = 20;\n  console.log(x);\n  console.log(y);\n}\nshadow();\nconsole.log(x);\nconsole.log(y);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n10\n20\n100\n200\n```\n\n**Explanation:**\nVariables declared inside the function \"shadow\" the variables in the outer scope with the same names.\n\n</details>\n---\n\n## 4. Illegal Shadowing\n\n**Question:** Will this code run successfully?\n\n```javascript\nfunction illegalShadowing() {\n  let a = 10;\n  var a = 20; \n}\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nSyntaxError: Identifier 'a' has already been declared\n```\n\n**Explanation:**\nYou *cannot* shadow a block-scoped variable (`let` or `const`) with a function-scoped variable (`var`) within the same scope. Since `var` escapes the block, it clashes with the `let` declaration.\n\n</details>\n---\n\n## 5. Re-declaration Restrictions\n\n**Question:** What happens in each scenario?\n\n```javascript\nvar a = 10;\nvar a = 20;\nconsole.log(a);\n\nlet b = 10;\nlet b = 20;\nconsole.log(b);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n20\nSyntaxError: Identifier 'b' has already been declared\n```\n\n**Explanation:**\n`var` can be re-declared within the same scope without error. `let` and `const` cannot.\n\n</details>\n---\n\n## 6. Global Object Properties\n\n**Question:** What will be logged in a browser environment?\n\n```javascript\nvar a = \"Hello\";\nlet b = \"World\";\n\nconsole.log(window.a);\nconsole.log(window.b);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n\"Hello\"\nundefined\n```\n\n**Explanation:**\nAt the top level (global scope), variables declared with `var` become properties of the global object (`window`). Variables declared with `let` and `const` do *not*.\n\n</details>\n---\n\n## 7. Block Scope Leaks\n\n**Question:** Can we access these variables outside the block?\n\n```javascript\n{\n  var a = 1;\n  let b = 2;\n  const c = 3;\n}\nconsole.log(a);\nconsole.log(b);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n1\nReferenceError: b is not defined\n```\n\n**Explanation:**\n`var` ignores normal blocks (like `{}`). Therefore, `a` leaks out. `let` and `const` are strictly confined within the block.\n\n</details>\n---\n\n## 8. TDZ inside a Nested Block\n\n**Question:** What will be outputted?\n\n```javascript\nlet name = \"Alice\";\n\nfunction greet() {\n  console.log(name);\n  let name = \"Bob\";\n}\ngreet();\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nReferenceError: Cannot access 'name' before initialization\n```\n\n**Explanation:**\nInside the `greet` function, `let name = \"Bob\"` is hoisted to the top of the function block. `console.log(name)` tries to access this local `name` which is in the TDZ, not the outer `\"Alice\"`.\n\n</details>\n---\n\n## 9. `const` Mutability\n\n**Question:** Will this code throw an error?\n\n```javascript\nconst person = { name: \"John\" };\nperson.name = \"Doe\";\n\nconst arr = [1, 2, 3];\narr.push(4);\n\nperson = { name: \"Jane\" }; // What about this?\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n// person.name = \"Doe\" and arr.push(4) work perfectly fine.\nTypeError: Assignment to constant variable. // Thrown on the last line\n```\n\n**Explanation:**\n`const` prevents *reassignment* of the identifier. It does *not* make the value immutable. You can freely mutate the properties of a `const` object or array.\n\n</details>\n---\n\n## 10. Hoisting: Functions vs `var`\n\n**Question:** What is the output?\n\n```javascript\nconsole.log(foo);\nvar foo = 1;\nconsole.log(foo());\n\nfunction foo() {\n  return 2;\n}\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n[Function: foo]\nTypeError: foo is not a function\n```\n\n**Explanation:**\nFunction declarations take precedence over `var` declaration hoisting. First `foo` is the function, then it is reassigned to the number `1`.\n\n</details>\n---\n\n## 11. Initializing `const`\n\n**Question:** Is this valid?\n\n```javascript\nconst a;\na = 10;\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nSyntaxError: Missing initializer in const declaration\n```\n\n**Explanation:**\n`const` variables *must* be initialized at the exact time they are declared.\n\n</details>\n---\n\n## 12. Switch Statement Scoping\n\n**Question:** Will this code throw an error?\n\n```javascript\nlet x = 1;\nswitch(x) {\n  case 0:\n    let result = \"Zero\";\n    break;\n  case 1:\n    let result = \"One\"; \n    break;\n}\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nSyntaxError: Identifier 'result' has already been declared\n```\n\n**Explanation:**\nA `switch` statement creates a *single* block scope for all of its cases. Both instances of `let result` end up in the exact same scope.\n\n</details>\n---\n\n## 13. Function Expression Hoisting\n\n**Question:** What will this log?\n\n```javascript\nconsole.log(myFunc);\nconsole.log(myFunc());\n\nvar myFunc = function() {\n  return \"Hello\";\n};\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nundefined\nTypeError: myFunc is not a function\n```\n\n**Explanation:**\nOnly the variable declaration (`var myFunc`) is hoisted, not the initialization (`= function() {...}`). So `myFunc` is `undefined` when called, which throws a TypeError.\n\n</details>\n---\n\n## 14. `typeof` Operator and TDZ\n\n**Question:** What output does this produce?\n\n```javascript\nconsole.log(typeof undeclaredVariable);\nconsole.log(typeof letVariable);\nlet letVariable = \"Hello\";\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n\"undefined\"\nReferenceError: Cannot access 'letVariable' before initialization\n```\n\n**Explanation:**\n`typeof` is perfectly safe to use on completely undeclared variables (returns `\"undefined\"`). However, using it on variables currently in the TDZ will throw a `ReferenceError`.\n\n</details>\n---\n\n## 15. Catch Block Scoping\n\n**Question:** How does scoping work in `catch` blocks?\n\n```javascript\ntry {\n  throw new Error(\"Oops\");\n} catch (e) {\n  var x = 1;\n  let y = 2;\n  console.log(e); // Error: Oops\n}\n\nconsole.log(x);\nconsole.log(y);\nconsole.log(e);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n1\nReferenceError: y is not defined\n// (If you fix y, the next line is: ReferenceError: e is not defined)\n```\n\n**Explanation:**\nThe parameter `e` in a standard `catch(e)` acts identically to `let` (it's block-scoped). `var x = 1` ignores block scope and leaks out. `let y = 2` is block-scoped inside the catch block.\n\n</details>\n---\n\n## 16. Implicit Globals\n\n**Question:** What happens if you forget `var`/`let`/`const`? (Assume non-strict mode)\n\n```javascript\nfunction createVariable() {\n  x = 10;\n}\ncreateVariable();\nconsole.log(x);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n10\n```\n\n**Explanation:**\nIn non-strict mode, assigning to an undeclared variable creates an implicit global variable (`window.x`). In strict mode (`\"use strict\";`), this throws a `ReferenceError`.\n\n</details>\n---\n\n## 17. Shadowing Function Arguments\n\n**Question:** What is the output?\n\n```javascript\nfunction test(a) {\n  var a = 10;\n  let b = 20;\n  console.log(a);\n}\ntest(5);\n\nfunction test2(a) {\n  let a = 10;\n  console.log(a);\n}\ntest2(5);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n10\nSyntaxError: Identifier 'a' has already been declared (in test2)\n```\n\n**Explanation:**\nYou can re-declare arguments using `var` inside the function, and it simply updates the value. However, you cannot declare a `let` variable with the same name as a function argument, because arguments are already bound in that scope.\n\n</details>\n---\n\n## 18. Default Parameters and TDZ\n\n**Question:** What does this output?\n\n```javascript\nfunction foo(a = b, b = 2) {\n  return a + b;\n}\nconsole.log(foo());\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nReferenceError: Cannot access 'b' before initialization\n```\n\n**Explanation:**\nDefault parameters act like `let` declarations evaluated from left to right. When examining `a = b`, the parameter `b` has not been initialized yet (it is in the TDZ).\n\n</details>\n---\n\n## 19. Repeated Loop Variables with `var`\n\n**Question:** What does this code do?\n\n```javascript\nvar i = 10;\nfor (var i = 0; i < 3; i++) {\n  // do nothing\n}\nconsole.log(i);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n3\n```\n\n**Explanation:**\nBecause `var` is function-scoped (or global here) and can be re-declared, the loop simply reuses the existing global `i`, modifying it until it hits `3`.\n\n</details>\n---\n\n## 20. Repeating Loop Variables with `let`\n\n**Question:** Contrast this with `let`:\n\n```javascript\nlet i = 10;\nfor (let i = 0; i < 3; i++) {\n  // do nothing\n}\nconsole.log(i);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n10\n```\n\n**Explanation:**\nThe `let i = 0` inside the `for` loop parameters creates a new lexical scope specifically for the loop, completely separate from the outer `let i = 10`.\n\n</details>\n---\n\n## 21. `Object.freeze()` vs `const`\n\n**Question:** How does `Object.freeze` differ from `const`?\n\n```javascript\nconst obj = Object.freeze({ prop: 1 });\nobj.prop = 2;\nconsole.log(obj.prop);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n1\n```\n\n**Explanation:**\n`const` applies to the variable *binding*. `Object.freeze()` applies to the *object itself*, making its properties un-modifiable (shallowly). In `strict` mode, `obj.prop = 2` would actually throw a TypeError. In non-strict mode, it fails silently.\n\n</details>\n---\n\n## 22. IIFEs and Scope Protection\n\n**Question:** What does `x` evaluate to here?\n\n```javascript\n(function() {\n  var x = y = 100;\n})();\nconsole.log(typeof x);\nconsole.log(typeof y);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n\"undefined\"\n\"number\"\n```\n\n**Explanation:**\n`var x = y = 100` evaluates from right to left as `y = 100` and then `var x = y`. `y` has no variable declaration, so it becomes an implicit global. `var x` remains function-scoped inside the IIFE and doesn't leak out.\n\n</details>\n---\n\n## 23. Function Declaration in Blocks\n\n**Question:** Is this valid JS, and what logs? (In strict mode)\n\n```javascript\n\"use strict\";\n{\n  function doSomething() {\n    return \"Hello\";\n  }\n}\nconsole.log(doSomething());\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nReferenceError: doSomething is not defined\n```\n\n**Explanation:**\nIn modern JavaScript (strict mode), function declarations inside of blocks are block-scoped, exactly like `let`. They cannot be accessed outside the block. (In non-strict mode, behavior is highly inconsistent across browsers, though historically it leaked out like `var`).\n\n</details>\n---\n\n## 24. Lexical Scoping and `this`\n\n**Question:** What does this log?\n\n```javascript\nconst obj = {\n  name: \"JS\",\n  arrowFunc: () => console.log(this.name),\n  regFunc: function() { console.log(this.name); }\n};\n\nvar name = \"Global JS\";\n\nobj.arrowFunc();\nobj.regFunc();\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n\"Global JS\"\n\"JS\"\n```\n\n**Explanation:**\nArrow functions do not have their own `this` binding; they inherit the `this` from the enclosing lexical context. Here, that's the global window object. Because `var name` declares a variable on the global object, `this.name` inside the arrow function resolves to \"Global JS\". The regular function binds `this` to the `obj` calling it.\n\n</details>\n---\n\n## 25. Hoisting across multiple script tags (HTML)\n\n**Question:** If script 1 has `let a = 1;` and script 2 relies on it, what happens?\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\nVariables declared with `var`, `let`, or `const` at the top level of any script block are shared across the global environment in browsers. Thus, script 2 can access `a`. If script 1 had used `let a = 1`, script 2 calling `console.log(a)` will print `1`.\n\n</details>\n---\n\n## 26. Multiple TDZs in same line\n\n**Question:** What happens?\n\n```javascript\nlet a = 1, b = a + 2, c = b + 3;\nconsole.log(c);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n6\n```\n\n**Explanation:**\nComma-separated declarations are evaluated sequentially from left to right. Once `a` is initialized, it leaves the TDZ, allowing `b` to safely use it, and so on.\n\n</details>\n---\n\n## 27. Same line TDZ Error\n\n**Question:** Conversely, what about this?\n\n```javascript\nlet a = b + 1, b = 2;\nconsole.log(a);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nReferenceError: Cannot access 'b' before initialization\n```\n\n**Explanation:**\nEvaluating sequentially, `a` tries to access `b`. However, `b` remains in the TDZ until the engine evaluates `b = 2`.\n\n</details>\n---\n\n## 28. `var` inside an Arrow Function\n\n**Question:** Does `var` leak out of an arrow function?\n\n```javascript\nconst myArrow = () => {\n  var hidden = true;\n};\nmyArrow();\nconsole.log(hidden);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nReferenceError: hidden is not defined\n```\n\n**Explanation:**\nArrow functions are still functions! `var` is function-scoped. It will not leak out of an arrow function.\n\n</details>\n---\n\n## 29. Hoisting of Classes\n\n**Question:** Are ES6 classes hoisted like functions?\n\n```javascript\nconst myInstance = new Car();\n\nclass Car {\n  constructor() {\n    this.wheels = 4;\n  }\n}\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nReferenceError: Cannot access 'Car' before initialization\n```\n\n**Explanation:**\nClasses are hoisted under the hood exactly like `let` and `const`. They are placed in the Temporal Dead Zone until their definition is evaluated, so you cannot instantiate them before they are declared in the code.\n\n</details>\n---\n\n## 30. Variable Declarations in `for...in` Loops\n\n**Question:** What does this log?\n\n```javascript\nconst obj = { a: 1, b: 2, c: 3 };\n\nfor (const key in obj) {\n  console.log(key);\n}\n\nfor (const key in obj) {\n  setTimeout(() => console.log(key), 10);\n}\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n\"a\", \"b\", \"c\"\n\"a\", \"b\", \"c\" (after 10ms)\n```\n\n**Explanation:**\nYou can use `const` inside a `for...in` or `for...of` loop because a *new* block scope (and a new `const` binding) is created for every single iteration. However, using `const` inside a standard `for (const i = 0; i < 3; i++)` will crash on the second loop, because `i++` attempts to mutate a constant!\n\n</details>\n---\n\n## 31. The `eval()` Scope Leak\n\n**Question:** How does `var` behave inside `eval()` compared to `let`?\n\n```javascript\neval(\"var e1 = 1; let e2 = 2;\");\nconsole.log(e1);\nconsole.log(e2);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n1\nReferenceError: e2 is not defined\n```\n\n**Explanation:**\nCode executed via non-strict `eval()` runs with the caller's privilege. `var` leaks out of `eval` into the surrounding scope. However, `let` and `const` inside an `eval` create their own separate lexical scope.\n\n</details>\n---\n\n## 32. Temporal Dead Zone with `typeof`\n\n**Question:** Will this throw an error?\n\n```javascript\nconsole.log(typeof x);\nlet x = 10;\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nReferenceError: Cannot access 'x' before initialization\n```\n\n**Explanation:**\nBefore ES6, `typeof` was always safe to use (returning `\"undefined\"` for undeclared items). But using `typeof` on a variable explicitly declared with `let` or `const` that is currently in the TDZ throws a ReferenceError.\n\n</details>\n---\n\n## 33. The `new Function()` Scope\n\n**Question:** Where does `new Function()` bind its closures?\n\n```javascript\nvar num = 10;\nfunction createFunc() {\n  var num = 20;\n  return new Function('return num;');\n}\nconsole.log(createFunc()());\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n10\n```\n\n**Explanation:**\nUnlike regular functions that inherit closures from where they are defined, functions created via the `new Function()` constructor always bind their closures to the global scope. Here, it sees `var num = 10` (the global `num`), totally ignoring the inner `num = 20`.\n\n</details>\n---\n\n## 34. Global Object and Global Declarations\n\n**Question:** Will `delete` work on this variable?\n\n```javascript\nvar myVar = 5;\nconsole.log(delete window.myVar);\nconsole.log(myVar);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nfalse\n5\n```\n\n**Explanation:**\nWhen `var` is used to create a global variable, it attaches to the global object with its `configurable` flag set to `false`. Therefore, it cannot be deleted using the `delete` operator.\n\n</details>\n---\n\n## 35. Class Hoisting and Expressions\n\n**Question:** How do class expressions compare to class declarations?\n\n```javascript\nlet myCar = new Car();\nlet Car = class { };\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nReferenceError: Cannot access 'Car' before initialization\n```\n\n**Explanation:**\nNeither class declarations nor class expressions are initialized until evaluation. Both are kept in the TDZ.\n\n</details>\n---\n\n## 36. Shadowing Function Names\n\n**Question:** What does this output?\n\n```javascript\nvar test = 10;\nfunction test() {\n  console.log(\"Hello\");\n}\nconsole.log(typeof test);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n\"number\"\n```\n\n**Explanation:**\nFunction declarations are hoisted before variable declarations. First, `test` becomes a function. Then, the variable assignment `test = 10` overwrites it.\n\n</details>\n---\n\n## 37. Immediate TDZ inside Blocks\n\n**Question:** Will this log `10` or an error?\n\n```javascript\nlet w = 10;\n{\n  console.log(w); \n  let w = 20;\n}\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nReferenceError: Cannot access 'w' before initialization\n```\n\n**Explanation:**\nThe inner block has its own lexical environment. The inner `let w` is hoisted to the top of the block, eclipsing the outer `w`. Because it is in the TDZ, calling `console.log(w)` throws an error.\n\n</details>\n---\n\n## 38. Destructuring and the TDZ\n\n**Question:** Does the TDZ apply inside array destructuring?\n\n```javascript\nlet [a = b, b = 2] = [];\nconsole.log(a, b);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nReferenceError: Cannot access 'b' before initialization\n```\n\n**Explanation:**\nDestructuring assignments are evaluated sequentially from left to right. When checking `a = b`, the `b` parameter is uninitialized and lives in the TDZ.\n\n</details>\n---\n\n## 39. Blocks with `var`\n\n**Question:** Does `var` leak out of nested conditional blocks?\n\n```javascript\nif (true) {\n  var leak = true;\n}\nconsole.log(leak);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\ntrue\n```\n\n**Explanation:**\nYes. `var` does not respect block scoping (`if`, `for`, `while`), only function scoping.\n\n</details>\n---\n\n## 40. Labelled Blocks\n\n**Question:** Can `let` escape a labelled block?\n\n```javascript\nmyLabel: {\n  let inner = 5;\n  break myLabel;\n}\nconsole.log(inner);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nReferenceError: inner is not defined\n```\n\n**Explanation:**\nLabelled blocks are still blocks (`{...}`). `let` and `const` variables declared inside them will never leak out.\n\n</details>\n---\n\n## 41. Scope with `with()` statement\n\n**Question:** Does `let` work appropriately inside `with`?\n*(Assume non-strict mode as `with` is forbidden in strict mode)*\n\n```javascript\nvar obj = { a: 1 };\nwith (obj) {\n  let a = 2;\n  var b = 3;\n}\nconsole.log(obj.a);\nconsole.log(b);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n1\n3\n```\n\n**Explanation:**\nThe `with` statement creates a temporary scope using the object's properties. `let a = 2` creates a block-scoped variable that *does not* overwrite `obj.a`. `var b = 3` escapes the `with` block entirely.\n\n</details>\n---\n\n## 42. Closure Bugs Fixed by IIFEs\n\n**Question:** Before `let`, how did developers fix the loop logging bug?\n\n```javascript\nfor (var i = 0; i < 3; i++) {\n  (function(lockedIndex) {\n    setTimeout(() => console.log(lockedIndex), 1);\n  })(i);\n}\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n0\n1\n2\n```\n\n**Explanation:**\nBy wrapping the code in an IIFE (Immediately Invoked Function Expression) and passing `i` as an argument, they created a *new function scope* for each iteration, breaking the closure reference to the single global `i`. This is exactly what `let` does for block scopes.\n\n</details>\n---\n\n## 43. Calling `const` before `setTimeout`\n\n**Question:** Does the TDZ matter if the reference happens asynchronously?\n\n```javascript\nfunction delay() {\n  console.log(x);\n}\nsetTimeout(delay, 100);\nconst x = 50;\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n50\n```\n\n**Explanation:**\nThis succeeds! The `setTimeout` delays execution for 100ms. By the time `delay()` is evaluated, the `const x = 50` line has already executed, freeing `x` from the TDZ.\n\n</details>\n---\n\n## 44. Arrow Function Closure Context\n\n**Question:** What does this Output?\n\n```javascript\nvar myVar = 1;\nfunction outer() {\n  var myVar = 2;\n  return () => console.log(myVar);\n}\nouter()();\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n2\n```\n\n**Explanation:**\nThe arrow function closes over the lexical environment of `outer()`, exactly where it was defined. Therefore, it remembers the `myVar` that was equal to `2`.\n\n</details>\n---\n\n## 45. Nested Functions and Shadowing\n\n**Question:** Does nested function execution change variable finding?\n\n```javascript\nvar val = 1;\nfunction execute() {\n  console.log(val);\n  var val = 2;\n}\nexecute();\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nundefined\n```\n\n**Explanation:**\nInside `execute`, `var val` is hoisted to the top. This local `val` completely shadows the outer `val = 1`. Since it's hoisted but unassigned, it is `undefined`.\n\n</details>\n---\n\n## 46. Modifying global `let`\n\n**Question:** Does modifying the `window` object change a `let` variable?\n\n```javascript\nlet myApp = \"App1\";\nwindow.myApp = \"App2\";\nconsole.log(myApp);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n\"App1\"\n```\n\n**Explanation:**\nBecause `let` declarations do not attach to the global object, `myApp` and `window.myApp` are completely distinct references in global scope. Modifying the window property does not touch the lexical `let` variable.\n\n</details>\n---\n\n## 47. Re-assignment with Loop Conditions\n\n**Question:** Can `const` be used for `while` loops?\n\n```javascript\nlet count = 0;\nwhile (const c = count < 2) { // Is this allowed?\n  console.log(c);\n  count++;\n}\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nSyntaxError: Unexpected token 'const'\n```\n\n**Explanation:**\nYou cannot formulate declarations directly inside a `while()` conditional expression standard syntax in JavaScript. Only evaluations can go in the condition parentheses.\n\n</details>\n---\n\n## 48. Reassigning `arguments`\n\n**Question:** Is the `arguments` object mutable?\n\n```javascript\nfunction mut(a, b) {\n  arguments[0] = 99;\n  console.log(a);\n}\nmut(1, 2);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n99\n```\n\n**Explanation:**\nIn non-strict mode, reassigning `arguments[0]` actively mirrors and edits the bound function parameter `a`. (In strict mode, they are completely decoupled and `a` would remain 1).\n\n</details>\n---\n\n## 49. Shadowing Catch Clause\n\n**Question:** Are you allowed to recreate the `catch` argument?\n\n```javascript\ntry { throw \"Bug\" }\ncatch(err) {\n  let err = \"New Bug\"; \n  console.log(err);\n}\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nSyntaxError: Identifier 'err' has already been declared\n```\n\n**Explanation:**\nThe `catch(err)` creates a block-scoped binding for `err`. Redeclaring it using `let` in the identical block is strictly forbidden.\n\n</details>\n---\n\n## 50. Exporting hoisted functions\n\n**Question:** Can a module export a function defined lower down the file?\n\n```javascript\nexport { showData };\nfunction showData() { return \"Data\"; }\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n// Valid!\n```\n\n**Explanation:**\nFunction declarations are reliably hoisted to the top of module scope. Modules can smoothly export these hoisted bindings before their visual placement in the file.\n\n</details>\n---\n\n## 51. ES6 Module Scope and the Global Object\n\n**Question:** In an HTML file with `<script type=\"module\">`, does `var` behave like it does in a standard script?\n\n```javascript\n// Inside a module script\nvar myAPI = \"fetchData\";\nconsole.log(window.myAPI);\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nundefined\n```\n\n**Explanation:**\nIn standard script tags, top-level `var` declarations add properties to the global object (`window` in browsers). However, ES6 modules (`<script type=\"module\">`) each have their own top-level module scope. Variables declared with `var`, `let`, or `const` at the top level of a module are scoped to that module and do not become properties of the global object.\n\n</details>\n---\n\n## 52. Garbage Collection: `let` in Loops vs. IIFE Closures\n\n**Question:** How does the modern `let` loop pattern differ from the old IIFE pattern regarding garbage collection and memory retention over time?\n\n```javascript\n// Modern Pattern\nfor (let i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 100);\n}\n\n// Old IIFE Pattern\nfor (var j = 0; j < 3; j++) {\n  (function(index) {\n    setTimeout(() => console.log(index), 100);\n  })(j);\n}\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Explanation:**\nBoth achieve the same result initially, but their internal mechanisms differ.\nThe modern `for(let i...)` loop implicitly creates a fresh lexical environment (a new hidden block scope) for *each iteration* that captures the current value of `i`. These environments are held in memory as long as the `setTimeout` closure holds a reference to them. Once the callbacks run and are disposed of, the associated environments can be garbage collected individually.\n\nThe older IIFE pattern manually forces a new function execution context, copying the primitive value `j` as a new local variable `index`. The difference in memory footprint is generally negligible for primitives, but if the loop contained large objects in its closure, understanding how those lexical environments are retained by the closures (and when they can be garbage collected) is vital. The `let` loop is engine-optimized and avoids the slight overhead of repeated function invocation (the IIFEs).\n\n</details>\n---\n\n## 53. Named Function Expressions and Hoisting\n\n**Question:** What happens if you try to call `b()` outside and inside this named function expression?\n\n```javascript\nvar a = function b() {\n  console.log(typeof b);\n};\n\na();\nb();\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\n\"function\"\nReferenceError: b is not defined\n```\n\n**Explanation:**\nThis is a Variable Declaration initialized with a *Named Function Expression*.\nOnly the variable `a` is hoisted (as `undefined`).\nThe identifier `b` is **not** added to the outer scope at all (which is why calling `b()` throws a `ReferenceError`). Instead, the name `b` is strictly bound locally *inside* the function body itself, allowing the function to reliably refer to itself recursively (hence `typeof b` logs `\"function\"` when invoked via `a()`).\n\n</details>\n","ts_interview_questions.md":"# TypeScript & React Interview Prep: Top 30 Core Concepts\n\nThis document contains 30 of the most frequently asked TypeScript interview questions gathered from the topics covered in modern TS mastery courses, including the one linked. It covers fundamental concepts, advanced type system features, and React integration. It is designed to test your knowledge through definitions, conceptual explanations, and output-based code snippets.\n\n---\n\n## 1. What is TypeScript?\n\n**Question:** Explain what TypeScript is and how it acts like a \"security guard\" for your code.\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\nTypeScript is a strict syntactical superset of JavaScript that adds optional static typing to the language. It acts as a \"security guard\" by providing type checks during the development process (at compile-time) rather than at runtime. It analyzes your code to ensure you are using the correct types, calling existing methods, and avoiding common mistakes like typos or passing undefined variables, catching errors long before the code reaches production execution.\n</details>\n\n---\n\n## 2. Type Inference vs Explicit Annotation\n\n**Question:** What does \"types by inference\" mean, and when is it beneficial to let TypeScript infer types versus explicitly annotating them?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\n**Type Inference** means TypeScript automatically determines the type of a variable based on the value assigned to it during initialization (e.g., `let num = 10;` is strictly inferred as a `number`).\n\n- **When to infer:** You should rely on inference for simple variables and standard assignments. Over-annotating (e.g., `let num: number = 10;`) adds unnecessary noise to your code.\n- **When to annotate:** You must explicitly annotate when the type is not obvious (like function parameters and return types), when a variable is declared without an initial value, or when a variable could legitimately hold multiple types (e.g., a union of `string | number`).\n\n</details>\n\n---\n\n## 3. Output: Type Inference\n\n**Question:** Will this code compile successfully?\n\n```typescript\nlet message = \"Hello World\";\nmessage = 42;\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nError: Type 'number' is not assignable to type 'string'.\n```\n\n**Explanation:**\nEven though no explicit string type was provided, TypeScript inferred `message` to be of type `string` because of its initial assignment. Reassigning it to a number violates that strictly inferred type.\n</details>\n\n---\n\n## 4. Basic Primitive Types\n\n**Question:** What are the basic primitive types in TypeScript?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\nThe primary primitive types correspond strictly to JavaScript primitives:\n\n- `string`: Text values (e.g., `\"Hello\"`).\n- `number`: Numeric values, both integers and floats (e.g., `42`, `3.14`).\n- `boolean`: True/false values (e.g., `true`, `false`).\n- `null`: Represents the intentional absence of any object value.\n- `undefined`: Represents a variable that has not been assigned a value.\n- `symbol`: Unique and immutable primitive values.\n- `bigint`: Arbitrarily large integers.\n\n</details>\n\n---\n\n## 5. Special Types: `any` vs `unknown`\n\n**Question:** Compare and contrast the `any` and `unknown` types.\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\n\n- **`any`**: Tells TypeScript to completely disable type checking for that value. You can access any property or call it as a function without compile errors. It should be avoided whenever possible, as it totally defeats the purpose of using TypeScript.\n- **`unknown`**: Represents a value whose type is not yet known. Like `any`, it can hold any value, but it is **safer**. TypeScript will force you to do a type-check (narrow the type) before you are allowed to perform operations or call methods on an `unknown` variable.\n\n</details>\n\n---\n\n## 6. Output: The safety of `unknown`\n\n**Question:** Which of these function calls will cause a compile-time error?\n\n```typescript\nfunction processAny(val: any) {\n  val.toLowerCase();\n}\n\nfunction processUnknown(val: unknown) {\n  val.toLowerCase();\n}\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nError in `processUnknown`: 'val' is of type 'unknown'.\n```\n\n**Explanation:**\n`processAny` compiles perfectly (even if it ends up crashing at runtime) because `any` explicitly turns off TS checks. `processUnknown` triggers a compile error because you cannot call methods on an `unknown` type until you explicitly narrow it (e.g., `if (typeof val === \"string\") { val.toLowerCase(); }`).\n</details>\n\n---\n\n## 7. Special Types: `void` vs `never`\n\n**Question:** What is the difference between `void` and `never` when used as return types?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\n\n- **`void`**: Used when a function executes successfully but does not return a value (e.g., a function that just logs to the console). It technically returns `undefined` under the hood in JavaScript.\n- **`never`**: Used when a function **never** successfully completes its execution. This happens in functions that always throw an error (`throw new Error()`) or contain an infinite loop (`while(true) {}`).\n\n</details>\n\n---\n\n## 8. Modeling Object Properties\n\n**Question:** How do you define required, optional, and read-only properties in a TypeScript object or interface?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\n\n- **Required**: Declared with just the property name and type (e.g., `id: string;`).\n- **Optional**: Appending a `?` after the property name (e.g., `email?: string;`). If omitted, the value will be `undefined`.\n- **Read-only**: Prepended with the `readonly` keyword (e.g., `readonly id: string;`). This prevents the property from being mutated after initialization.\n\n</details>\n\n---\n\n## 9. Output: Read-only limitations\n\n**Question:** Will this code compile?\n\n```typescript\ninterface User {\n  readonly id: number;\n  name: string;\n}\n\nconst user: User = { id: 1, name: \"Alice\" };\nuser.name = \"Bob\";\nuser.id = 2;\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nError: Cannot assign to 'id' because it is a read-only property. // Fails on line 8\n```\n\n**Explanation:**\nMutating the required `name` property is perfectly fine, but attempting to reassign the `readonly id` property will be blocked by the TypeScript compiler.\n</details>\n\n---\n\n## 10. Type Assertions\n\n**Question:** What are \"assertions\" (using `as`) in TypeScript, and when should they be used?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\nType Assertions are a way to tell the TypeScript compiler, \"Trust me, I know what type this value is better than you do.\" You use the `as Type` syntax (e.g., `const myCanvas = document.getElementById(\"canvas\") as HTMLCanvasElement;`).\nThey are typically used when fetching data from external APIs or selecting DOM elements, where TypeScript only knows the base type (like `HTMLElement`), but you know the specific subclass interacting with it.\n</details>\n\n---\n\n## 11. Union Types\n\n**Question:** Explain what \"Union types\" are and how they are used.\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\nUnion types allow a value to be one of several different types. They are denoted using the pipe `|` symbol. For example, `let status: \"success\" | \"error\" | \"loading\";`. They are used to model data that has flexible but strictly defined constraints (like a variable that can be either a `string` or a `number`).\n</details>\n\n---\n\n## 12. Intersection Types\n\n**Question:** What are \"Intersection types\" and how do they differ from Unions?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\nIntersection types (`&`) combine multiple, disparate types into a single type that must completely satisfy **all** of the joined types. While a union (`A | B`) means the value can be *either* A or B, an intersection (`A & B`) means the value must be *both* A and B simultaneously (containing all properties from both object shapes explicitly).\n</details>\n\n---\n\n## 13. Output: Intersections\n\n**Question:** Will the `obj` declaration compile?\n\n```typescript\ntype HasName = { name: string };\ntype HasId = { id: number };\n\ntype User = HasName & HasId;\n\nconst obj: User = {\n  name: \"John\"\n};\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nError: Property 'id' is missing in type '{ name: string; }' but required in type 'User'.\n```\n\n**Explanation:**\nBecause `User` is an intersection of `HasName` and `HasId`, any object of type `User` must provide both a `name` and an `id`.\n</details>\n\n---\n\n## 14. Arrays vs Tuples\n\n**Question:** Describe how to work with arrays and tuples in TypeScript and highlight the difference.\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\n\n- **Arrays**: A collection of elements of a single type (or a specific union). They have a flexible length. Defined as `type[]` or `Array<type>` (e.g., `number[]`).\n- **Tuples**: A rigidly structured array where the **exact length** and the **type of every specific element at a specific index** are known and defined upfront. Defined using brackets: `[string, number]` represents a tuple that must have exactly two elements: a string first, and a number second.\n\n</details>\n\n---\n\n## 15. Interfaces vs Type Aliases\n\n**Question:** What are the key differences between `interface` and `type` in TypeScript?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\n\n- **Interfaces**: Primarily designed to define the shape of an object. They are extensible; if you declare two interfaces with the same name in the same scope, they automatically merge their properties together (Declaration Merging). They are generally preferred for public APIs or class contracts.\n- **Type Aliases**: Highly versatile. They can define object shapes, but can also define primitives, Union types, Intersection types, and Tuples. They are strict; you cannot redeclare or \"merge\" a `type` alias.\n\n</details>\n\n---\n\n## 16. Output: Interface Merging\n\n**Question:** Does this code contain an error?\n\n```typescript\ninterface Car { wheels: number; }\ninterface Car { brand: string; }\n\nconst myCar: Car = {\n  wheels: 4,\n  brand: \"Toyota\"\n};\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nCompiles successfully! No output errors.\n```\n\n**Explanation:**\nUnlike `type` aliases, `interface` supports **declaration merging**. Because both instances of `Car` are interfaces, TypeScript silently merges their properties together, meaning a `Car` object successfully requires both `wheels` and a `brand`.\n</details>\n\n---\n\n## 17. Generics\n\n**Question:** Explain what \"generics\" are in TypeScript.\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\nGenerics allow you to create reusable components, functions, or classes that work gracefully over a variety of types, while retaining strict type-safety. Think of Generics as variables for types; just like a normal function accepts arguments as values, Generics allow functions/classes to accept *Types* as arguments, commonly denoted by placeholders like `<T>`.\n</details>\n\n---\n\n## 18. Output: Generic Function Inference\n\n**Question:** What is the inferred type of `result`?\n\n```typescript\nfunction echo<T>(value: T): T {\n  return value;\n}\n\nconst result = echo(\"Hello TypeScript\");\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output:**\n\n```text\nThe variable `result` is of type `\"Hello TypeScript\"` (or `string`).\n```\n\n**Explanation:**\nWhile calling `echo<string>(\"Hello\")` is perfectly valid, TypeScript is smart enough to infer the type parameter `<T>` directly from the provided argument `\"Hello TypeScript\"`.\n</details>\n\n---\n\n## 19. Generic Constraints\n\n**Question:** What are generic constraints, and how do you use them?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\nSometimes you want a generic function to accept a variety of types, but you still need those types to have certain mandatory properties. You \"constrain\" the generic type using the `extends` keyword.\nFor example: `function getLength<T extends { length: number }>(item: T)`. This means `<T>` can be *any type in the world*, as long as it has a generic `length` property of type `number` (like Arrays, Strings, or custom objects).\n</details>\n\n---\n\n## 20. Utility Types: `Partial`, `Pick`, and `Omit`\n\n**Question:** How do the `Partial`, `Pick`, and `Omit` utility types manipulate object interfaces?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\n\n- **`Partial<T>`**: Takes an interface `T` and returns a new type where *every* property has been made optional (`?`).\n- **`Pick<T, Keys>`**: Creates a new type by selecting a specific set of `Keys` from interface `T`.\n- **`Omit<T, Keys>`**: Creates a new type by stripping out a specific set of `Keys` from base interface `T`.\n\n</details>\n\n---\n\n## 21. Utility Types: `Record`, `Exclude`, and `Extract`\n\n**Question:** How do the `Record`, `Exclude`, and `Extract` utility types function?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\n\n- **`Record<Keys, Type>`**: Creates an object type whose property keys are of type `Keys` and values are of type `Type` (e.g., `Record<string, number>` creates a dictionary map of numbers).\n- **`Exclude<UnionType, ExcludedMembers>`**: Constructs a new union type by filtering *out* (removing) specific members from an existing Union.\n- **`Extract<UnionType, ExtractedMembers>`**: The absolute opposite of Exclude; constructs a new union by extracting only those types that are strictly assignable to `ExtractedMembers`.\n\n</details>\n\n---\n\n## 22. Utility Types: `NonNullable` and `Awaited`\n\n**Question:** What are the `NonNullable` and `Awaited` utilities used for?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\n\n- **`NonNullable<T>`**: Removes `null` and `undefined` from a union type `T`, ensuring the value must be defined.\n- **`Awaited<T>`**: Unwraps a Promise, resolving the type it eventually resolves to. If `T` is `Promise<string>`, `Awaited<T>` collapses down to simply `string`.\n\n</details>\n\n---\n\n## 23. OOP Access Modifiers\n\n**Question:** Discuss the OOP access modifiers in TypeScript (`private`, `protected`, `public`).\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\n\n- **`public`** (default): Properties/methods are freely accessible from anywhere.\n- **`private`**: Properties/methods can *only* be accessed or modified from inside the exact class that defines them.\n- **`protected`**: Properties/methods can be accessed by the defining class, as well as any subclasses that explicitly extend it.\n\n</details>\n\n---\n\n## 24. React: Creating a TS Project\n\n**Question:** How do you set up a new React project with strict TypeScript settings?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\nIf using Vite, you execute `npm create vite@latest my-app -- --template react-ts`.\nIf using Create React App (deprecated but common), you use `npx create-react-app my-app --template typescript`.\nThis generates a `tsconfig.json` file inside your project root containing compiler options. Having `\"strict\": true` ensures deep type safety across your React files (which securely use the `.tsx` extension).\n</details>\n\n---\n\n## 25. React: Typing Component Props\n\n**Question:** How do you define strictly typed Props in a functional React component?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\nYou define an `interface` or `type` describing the properties the component expects. You then annotate the function parameters.\n\n```tsx\ntype ButtonProps = {\n  text: string;\n  onClick: () => void;\n  isDisabled?: boolean; // Optional prop\n};\n\nconst Button = ({ text, onClick, isDisabled = false }: ButtonProps) => {\n  return <button onClick={onClick} disabled={isDisabled}>{text}</button>;\n};\n```\n\n</details>\n\n---\n\n## 26. Output: React Specific Typing\n\n**Question:** What is the typical TypeScript interface type representing React \"children\" (nested elements inside a component)?\n\n```tsx\ntype LayoutProps = {\n  children: ???\n}\n```\n\n<details>\n<summary><b>View Answer (Output & Explanation)</b></summary>\n\n**Output / Explanation:**\nYou would ideally use `React.ReactNode`.\n\n```tsx\ntype LayoutProps = {\n  children: React.ReactNode; \n}\n```\n\n`ReactNode` is a broad union type provided by React's standard type definitions that accepts Strings, Elements, Arrays, Null, Booleans, and Fragments—essentially anything React can validly render to the DOM tree.\n</details>\n\n---\n\n## 27. React: Typing `useState`\n\n**Question:** How does TypeScript interact with the `useState` hook?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\nMost of the time, TypeScript relies directly on inference: `const [count, setCount] = useState(0)` accurately infers `count` as a `number`.\nIf the initial state is empty or could be `null`, you must provide a generic type parameter bracket:\n\n```tsx\nconst [user, setUser] = useState<User | null>(null);\n```\n\n</details>\n\n---\n\n## 28. React: Typing DOM Events\n\n**Question:** How do you type events, such as an `onChange` event in an input field?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\nReact provides specific synthetic event types globally. For an input field change, you use `React.ChangeEvent<HTMLInputElement>`. For a form submission, or a button click, you use `React.FormEvent<HTMLFormElement>` or `React.MouseEvent<HTMLButtonElement>`.\n\n```tsx\nconst handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n  console.log(event.target.value);\n}\n```\n\n</details>\n\n---\n\n## 29. React: Typing `useReducer`\n\n**Question:** How do you type state and actions when using the `useReducer` hook?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\nYou create an interface for the overall globally-passed State shape, and a Discriminated Union type for the Actions.\n\n```tsx\ntype State = { count: number };\ntype Action = \n  | { type: 'increment' }\n  | { type: 'decrement' }\n  | { type: 'reset', payload: number };\n\nfunction reducer(state: State, action: Action): State {\n  switch (action.type) {\n    case 'increment': return { count: state.count + 1 };\n    // TypeScript will warn you if you misspell a type, or access a payload that doesn't exist on that specific action branch\n  }\n}\n```\n\n</details>\n\n---\n\n## 30. React: Typing `useContext`\n\n**Question:** How do you set up and type React's Context API with `useContext`?\n<details>\n<summary><b>View Answer (Explanation)</b></summary>\n\n**Explanation:**\nYou declare an Interface defining everything stored in the context, and pass that as a Generic argument to `createContext`. You often have to logically handle the possibility of the context being `null` initially before the Provider injects distinct values.\n\n```tsx\ntype ThemeContextType = {\n  theme: \"light\" | \"dark\";\n  toggleTheme: () => void;\n};\n\n// Create Context (can initially be null if used outside provider)\nconst ThemeContext = createContext<ThemeContextType | null>(null);\n\nfunction App() {\n  const themeData = useContext(ThemeContext);\n  // TypeScript strictly forces you to check if themeData exists before using it\n  if (!themeData) throw new Error(\"Must be inside ThemeProvider\");\n  return <div>{themeData.theme}</div>;\n}\n```\n\n</details>\n"};
+
+        // Theme Toggle Logic
+        const themeBtn = document.getElementById('theme-button');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeText = document.getElementById('theme-text');
+        
+        const moonIcon = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+        const sunIcon = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+
+        let currentTheme = localStorage.getItem('theme') || 'dark';
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            if(theme === 'dark') {
+                themeIcon.innerHTML = sunIcon;
+                themeText.textContent = 'Light Mode';
+            } else {
+                themeIcon.innerHTML = moonIcon;
+                themeText.textContent = 'Dark Mode';
+            }
+            localStorage.setItem('theme', theme);
+        }
+
+        applyTheme(currentTheme);
+
+        themeBtn.addEventListener('click', () => {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(currentTheme);
+        });
+
+        // Navigation & Routing Logic
+        const homeView = document.getElementById('home-view');
+        const docView = document.getElementById('doc-view');
+        const backBtn = document.getElementById('back-btn');
+        const topicList = document.getElementById('topic-list');
+        const docContent = document.getElementById('doc-content');
+
+        // Formats filename to a nice title
+        function formatTitle(filename) {
+            return filename
+                .replace('.md', '')
+                .split('_')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+
+        // Initialize Home Page
+        function renderHome() {
+            Object.keys(markdownFiles).forEach(file => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.className = 'topic-card';
+                a.href = '#' + file;
+                
+                const title = document.createElement('h3');
+                title.textContent = formatTitle(file);
+                
+                const desc = document.createElement('p');
+                desc.textContent = "Click to open and study the interview flashcards and concepts.";
+
+                a.appendChild(title);
+                a.appendChild(desc);
+                li.appendChild(a);
+                topicList.appendChild(li);
+            });
+        }
+
+        // Initialize Document Page
+        function renderDoc(filename) {
+            const rawMd = markdownFiles[filename];
+            if(!rawMd) {
+                docContent.innerHTML = '<p>Error: Document not found.</p>';
+                return;
+            }
+            // Parse Markdown. DOMPurify ensures it is safe.
+            const rawHtml = marked.parse(rawMd);
+            docContent.innerHTML = DOMPurify.sanitize(rawHtml, { ADD_TAGS: ['details', 'summary'] });
+        }
+
+        // Router function
+        function handleRoute() {
+            const hash = window.location.hash;
+            if (hash && markdownFiles[hash.substring(1)]) {
+                const filename = hash.substring(1);
+                renderDoc(filename);
+                homeView.classList.remove('active');
+                docView.classList.add('active');
+                backBtn.style.display = 'flex';
+                window.scrollTo(0,0);
+            } else {
+                docView.classList.remove('active');
+                homeView.classList.add('active');
+                backBtn.style.display = 'none';
+                window.scrollTo(0,0);
+            }
+        }
+
+        backBtn.addEventListener('click', () => {
+            window.location.hash = '';
+        });
+
+        window.addEventListener('hashchange', handleRoute);
+
+        // Boot app
+        renderHome();
+        handleRoute();
+
+    </script>
+</body>
+</html>
