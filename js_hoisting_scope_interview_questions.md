@@ -15,6 +15,9 @@ for (let j = 0; j < 3; j++) {
   setTimeout(() => console.log(j), 1);
 }
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 3
@@ -28,6 +31,7 @@ for (let j = 0; j < 3; j++) {
 - `var` is function-scoped (or globally scoped here). The `setTimeout` callbacks all close over the *same* variable `i`. By the time the callbacks execute, the loop has finished and `i` is `3`.
 - `let` is block-scoped. A new lexical environment is created for each iteration of the loop, so each `setTimeout` callback captures a distinct `j` variable.
 
+</details>
 ---
 
 ## 2. Temporal Dead Zone (TDZ) Basics
@@ -38,6 +42,9 @@ console.log(b);
 var a = 10;
 let b = 20;
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 undefined
@@ -45,8 +52,9 @@ ReferenceError: Cannot access 'b' before initialization
 ```
 **Explanation:** 
 - `var` is hoisted and initialized with `undefined`.
-- `let` (and `const`) are hoisted but remain uninitialized in the "Temporal Dead Zone" (TDZ) until their actual declaration line is executed. 
+- `let` (and `const`) are hoisted but remain uninitialized in the "Temporal Dead Zone" (TDZ) until their actual declaration line is executed.
 
+</details>
 ---
 
 ## 3. Variable Shadowing
@@ -65,6 +73,9 @@ shadow();
 console.log(x);
 console.log(y);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 10
@@ -75,6 +86,7 @@ console.log(y);
 **Explanation:** 
 Variables declared inside the function "shadow" the variables in the outer scope with the same names.
 
+</details>
 ---
 
 ## 4. Illegal Shadowing
@@ -85,6 +97,9 @@ function illegalShadowing() {
   var a = 20; 
 }
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 SyntaxError: Identifier 'a' has already been declared
@@ -92,6 +107,7 @@ SyntaxError: Identifier 'a' has already been declared
 **Explanation:** 
 You *cannot* shadow a block-scoped variable (`let` or `const`) with a function-scoped variable (`var`) within the same scope. Since `var` escapes the block, it clashes with the `let` declaration.
 
+</details>
 ---
 
 ## 5. Re-declaration Restrictions
@@ -105,6 +121,9 @@ let b = 10;
 let b = 20;
 console.log(b);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 20
@@ -113,6 +132,7 @@ SyntaxError: Identifier 'b' has already been declared
 **Explanation:** 
 `var` can be re-declared within the same scope without error. `let` and `const` cannot.
 
+</details>
 ---
 
 ## 6. Global Object Properties
@@ -124,6 +144,9 @@ let b = "World";
 console.log(window.a);
 console.log(window.b);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 "Hello"
@@ -132,6 +155,7 @@ undefined
 **Explanation:** 
 At the top level (global scope), variables declared with `var` become properties of the global object (`window`). Variables declared with `let` and `const` do *not*.
 
+</details>
 ---
 
 ## 7. Block Scope Leaks
@@ -145,6 +169,9 @@ At the top level (global scope), variables declared with `var` become properties
 console.log(a);
 console.log(b);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 1
@@ -153,6 +180,7 @@ ReferenceError: b is not defined
 **Explanation:** 
 `var` ignores normal blocks (like `{}`). Therefore, `a` leaks out. `let` and `const` are strictly confined within the block.
 
+</details>
 ---
 
 ## 8. TDZ inside a Nested Block
@@ -166,6 +194,9 @@ function greet() {
 }
 greet();
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 ReferenceError: Cannot access 'name' before initialization
@@ -173,6 +204,7 @@ ReferenceError: Cannot access 'name' before initialization
 **Explanation:** 
 Inside the `greet` function, `let name = "Bob"` is hoisted to the top of the function block. `console.log(name)` tries to access this local `name` which is in the TDZ, not the outer `"Alice"`.
 
+</details>
 ---
 
 ## 9. `const` Mutability
@@ -186,6 +218,9 @@ arr.push(4);
 
 person = { name: "Jane" }; // What about this?
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 // person.name = "Doe" and arr.push(4) work perfectly fine.
@@ -194,6 +229,7 @@ TypeError: Assignment to constant variable. // Thrown on the last line
 **Explanation:** 
 `const` prevents *reassignment* of the identifier. It does *not* make the value immutable. You can freely mutate the properties of a `const` object or array.
 
+</details>
 ---
 
 ## 10. Hoisting: Functions vs `var`
@@ -207,6 +243,9 @@ function foo() {
   return 2;
 }
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 [Function: foo]
@@ -215,6 +254,7 @@ TypeError: foo is not a function
 **Explanation:** 
 Function declarations take precedence over `var` declaration hoisting. First `foo` is the function, then it is reassigned to the number `1`.
 
+</details>
 ---
 
 ## 11. Initializing `const`
@@ -223,6 +263,9 @@ Function declarations take precedence over `var` declaration hoisting. First `fo
 const a;
 a = 10;
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 SyntaxError: Missing initializer in const declaration
@@ -230,6 +273,7 @@ SyntaxError: Missing initializer in const declaration
 **Explanation:** 
 `const` variables *must* be initialized at the exact time they are declared.
 
+</details>
 ---
 
 ## 12. Switch Statement Scoping
@@ -245,6 +289,9 @@ switch(x) {
     break;
 }
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 SyntaxError: Identifier 'result' has already been declared
@@ -252,6 +299,7 @@ SyntaxError: Identifier 'result' has already been declared
 **Explanation:** 
 A `switch` statement creates a *single* block scope for all of its cases. Both instances of `let result` end up in the exact same scope.
 
+</details>
 ---
 
 ## 13. Function Expression Hoisting
@@ -264,6 +312,9 @@ var myFunc = function() {
   return "Hello";
 };
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 undefined
@@ -272,6 +323,7 @@ TypeError: myFunc is not a function
 **Explanation:** 
 Only the variable declaration (`var myFunc`) is hoisted, not the initialization (`= function() {...}`). So `myFunc` is `undefined` when called, which throws a TypeError.
 
+</details>
 ---
 
 ## 14. `typeof` Operator and TDZ
@@ -281,6 +333,9 @@ console.log(typeof undeclaredVariable);
 console.log(typeof letVariable);
 let letVariable = "Hello";
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 "undefined"
@@ -289,6 +344,7 @@ ReferenceError: Cannot access 'letVariable' before initialization
 **Explanation:** 
 `typeof` is perfectly safe to use on completely undeclared variables (returns `"undefined"`). However, using it on variables currently in the TDZ will throw a `ReferenceError`.
 
+</details>
 ---
 
 ## 15. Catch Block Scoping
@@ -306,6 +362,9 @@ console.log(x);
 console.log(y);
 console.log(e);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 1
@@ -315,6 +374,7 @@ ReferenceError: y is not defined
 **Explanation:** 
 The parameter `e` in a standard `catch(e)` acts identically to `let` (it's block-scoped). `var x = 1` ignores block scope and leaks out. `let y = 2` is block-scoped inside the catch block.
 
+</details>
 ---
 
 ## 16. Implicit Globals
@@ -326,6 +386,9 @@ function createVariable() {
 createVariable();
 console.log(x);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 10
@@ -333,6 +396,7 @@ console.log(x);
 **Explanation:** 
 In non-strict mode, assigning to an undeclared variable creates an implicit global variable (`window.x`). In strict mode (`"use strict";`), this throws a `ReferenceError`.
 
+</details>
 ---
 
 ## 17. Shadowing Function Arguments
@@ -351,6 +415,9 @@ function test2(a) {
 }
 test2(5);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 10
@@ -359,6 +426,7 @@ SyntaxError: Identifier 'a' has already been declared (in test2)
 **Explanation:** 
 You can re-declare arguments using `var` inside the function, and it simply updates the value. However, you cannot declare a `let` variable with the same name as a function argument, because arguments are already bound in that scope.
 
+</details>
 ---
 
 ## 18. Default Parameters and TDZ
@@ -369,13 +437,17 @@ function foo(a = b, b = 2) {
 }
 console.log(foo());
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 ReferenceError: Cannot access 'b' before initialization
 ```
 **Explanation:** 
-Default parameters act like `let` declarations evaluated from left to right. When examining `a = b`, the parameter `b` has not been initialized yet (it is in the TDZ). 
+Default parameters act like `let` declarations evaluated from left to right. When examining `a = b`, the parameter `b` has not been initialized yet (it is in the TDZ).
 
+</details>
 ---
 
 ## 19. Repeated Loop Variables with `var`
@@ -387,6 +459,9 @@ for (var i = 0; i < 3; i++) {
 }
 console.log(i);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 3
@@ -394,6 +469,7 @@ console.log(i);
 **Explanation:** 
 Because `var` is function-scoped (or global here) and can be re-declared, the loop simply reuses the existing global `i`, modifying it until it hits `3`.
 
+</details>
 ---
 
 ## 20. Repeating Loop Variables with `let`
@@ -405,6 +481,9 @@ for (let i = 0; i < 3; i++) {
 }
 console.log(i);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 10
@@ -412,6 +491,7 @@ console.log(i);
 **Explanation:** 
 The `let i = 0` inside the `for` loop parameters creates a new lexical scope specifically for the loop, completely separate from the outer `let i = 10`.
 
+</details>
 ---
 
 ## 21. `Object.freeze()` vs `const`
@@ -421,6 +501,9 @@ const obj = Object.freeze({ prop: 1 });
 obj.prop = 2;
 console.log(obj.prop);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 1
@@ -428,6 +511,7 @@ console.log(obj.prop);
 **Explanation:** 
 `const` applies to the variable *binding*. `Object.freeze()` applies to the *object itself*, making its properties un-modifiable (shallowly). In `strict` mode, `obj.prop = 2` would actually throw a TypeError. In non-strict mode, it fails silently.
 
+</details>
 ---
 
 ## 22. IIFEs and Scope Protection
@@ -439,6 +523,9 @@ console.log(obj.prop);
 console.log(typeof x);
 console.log(typeof y);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 "undefined"
@@ -447,6 +534,7 @@ console.log(typeof y);
 **Explanation:** 
 `var x = y = 100` evaluates from right to left as `y = 100` and then `var x = y`. `y` has no variable declaration, so it becomes an implicit global. `var x` remains function-scoped inside the IIFE and doesn't leak out.
 
+</details>
 ---
 
 ## 23. Function Declaration in Blocks
@@ -460,6 +548,9 @@ console.log(typeof y);
 }
 console.log(doSomething());
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 ReferenceError: doSomething is not defined
@@ -467,6 +558,7 @@ ReferenceError: doSomething is not defined
 **Explanation:** 
 In modern JavaScript (strict mode), function declarations inside of blocks are block-scoped, exactly like `let`. They cannot be accessed outside the block. (In non-strict mode, behavior is highly inconsistent across browsers, though historically it leaked out like `var`).
 
+</details>
 ---
 
 ## 24. Lexical Scoping and `this`
@@ -483,6 +575,9 @@ var name = "Global JS";
 obj.arrowFunc();
 obj.regFunc();
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 "Global JS"
@@ -491,13 +586,18 @@ obj.regFunc();
 **Explanation:** 
 Arrow functions do not have their own `this` binding; they inherit the `this` from the enclosing lexical context. Here, that's the global window object. Because `var name` declares a variable on the global object, `this.name` inside the arrow function resolves to "Global JS". The regular function binds `this` to the `obj` calling it.
 
+</details>
 ---
 
 ## 25. Hoisting across multiple script tags (HTML)
 **Question:** If script 1 has `let a = 1;` and script 2 relies on it, what happens?
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 Variables declared with `var`, `let`, or `const` at the top level of any script block are shared across the global environment in browsers. Thus, script 2 can access `a`. If script 1 had used `let a = 1`, script 2 calling `console.log(a)` will print `1`.
 
+</details>
 ---
 
 ## 26. Multiple TDZs in same line
@@ -506,6 +606,9 @@ Variables declared with `var`, `let`, or `const` at the top level of any script 
 let a = 1, b = a + 2, c = b + 3;
 console.log(c);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 6
@@ -513,6 +616,7 @@ console.log(c);
 **Explanation:** 
 Comma-separated declarations are evaluated sequentially from left to right. Once `a` is initialized, it leaves the TDZ, allowing `b` to safely use it, and so on.
 
+</details>
 ---
 
 ## 27. Same line TDZ Error
@@ -521,6 +625,9 @@ Comma-separated declarations are evaluated sequentially from left to right. Once
 let a = b + 1, b = 2;
 console.log(a);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 ReferenceError: Cannot access 'b' before initialization
@@ -528,6 +635,7 @@ ReferenceError: Cannot access 'b' before initialization
 **Explanation:** 
 Evaluating sequentially, `a` tries to access `b`. However, `b` remains in the TDZ until the engine evaluates `b = 2`.
 
+</details>
 ---
 
 ## 28. `var` inside an Arrow Function
@@ -539,6 +647,9 @@ const myArrow = () => {
 myArrow();
 console.log(hidden);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 ReferenceError: hidden is not defined
@@ -546,6 +657,7 @@ ReferenceError: hidden is not defined
 **Explanation:** 
 Arrow functions are still functions! `var` is function-scoped. It will not leak out of an arrow function.
 
+</details>
 ---
 
 ## 29. Hoisting of Classes
@@ -559,6 +671,9 @@ class Car {
   }
 }
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 ReferenceError: Cannot access 'Car' before initialization
@@ -566,6 +681,7 @@ ReferenceError: Cannot access 'Car' before initialization
 **Explanation:** 
 Classes are hoisted under the hood exactly like `let` and `const`. They are placed in the Temporal Dead Zone until their definition is evaluated, so you cannot instantiate them before they are declared in the code.
 
+</details>
 ---
 
 ## 30. Variable Declarations in `for...in` Loops
@@ -581,6 +697,9 @@ for (const key in obj) {
   setTimeout(() => console.log(key), 10);
 }
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 "a", "b", "c"
@@ -589,6 +708,7 @@ for (const key in obj) {
 **Explanation:** 
 You can use `const` inside a `for...in` or `for...of` loop because a *new* block scope (and a new `const` binding) is created for every single iteration. However, using `const` inside a standard `for (const i = 0; i < 3; i++)` will crash on the second loop, because `i++` attempts to mutate a constant!
 
+</details>
 ---
 
 ## 31. The `eval()` Scope Leak
@@ -598,6 +718,9 @@ eval("var e1 = 1; let e2 = 2;");
 console.log(e1);
 console.log(e2);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 1
@@ -606,6 +729,7 @@ ReferenceError: e2 is not defined
 **Explanation:** 
 Code executed via non-strict `eval()` runs with the caller's privilege. `var` leaks out of `eval` into the surrounding scope. However, `let` and `const` inside an `eval` create their own separate lexical scope.
 
+</details>
 ---
 
 ## 32. Temporal Dead Zone with `typeof`
@@ -614,6 +738,9 @@ Code executed via non-strict `eval()` runs with the caller's privilege. `var` le
 console.log(typeof x);
 let x = 10;
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 ReferenceError: Cannot access 'x' before initialization
@@ -621,6 +748,7 @@ ReferenceError: Cannot access 'x' before initialization
 **Explanation:** 
 Before ES6, `typeof` was always safe to use (returning `"undefined"` for undeclared items). But using `typeof` on a variable explicitly declared with `let` or `const` that is currently in the TDZ throws a ReferenceError.
 
+</details>
 ---
 
 ## 33. The `new Function()` Scope
@@ -633,6 +761,9 @@ function createFunc() {
 }
 console.log(createFunc()());
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 10
@@ -640,6 +771,7 @@ console.log(createFunc()());
 **Explanation:** 
 Unlike regular functions that inherit closures from where they are defined, functions created via the `new Function()` constructor always bind their closures to the global scope. Here, it sees `var num = 10` (the global `num`), totally ignoring the inner `num = 20`.
 
+</details>
 ---
 
 ## 34. Global Object and Global Declarations
@@ -649,14 +781,18 @@ var myVar = 5;
 console.log(delete window.myVar);
 console.log(myVar);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 false
 5
 ```
 **Explanation:** 
-When `var` is used to create a global variable, it attaches to the global object with its `configurable` flag set to `false`. Therefore, it cannot be deleted using the `delete` operator. 
+When `var` is used to create a global variable, it attaches to the global object with its `configurable` flag set to `false`. Therefore, it cannot be deleted using the `delete` operator.
 
+</details>
 ---
 
 ## 35. Class Hoisting and Expressions
@@ -665,6 +801,9 @@ When `var` is used to create a global variable, it attaches to the global object
 let myCar = new Car();
 let Car = class { };
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 ReferenceError: Cannot access 'Car' before initialization
@@ -672,6 +811,7 @@ ReferenceError: Cannot access 'Car' before initialization
 **Explanation:** 
 Neither class declarations nor class expressions are initialized until evaluation. Both are kept in the TDZ.
 
+</details>
 ---
 
 ## 36. Shadowing Function Names
@@ -683,13 +823,17 @@ function test() {
 }
 console.log(typeof test);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 "number"
 ```
 **Explanation:** 
-Function declarations are hoisted before variable declarations. First, `test` becomes a function. Then, the variable assignment `test = 10` overwrites it. 
+Function declarations are hoisted before variable declarations. First, `test` becomes a function. Then, the variable assignment `test = 10` overwrites it.
 
+</details>
 ---
 
 ## 37. Immediate TDZ inside Blocks
@@ -701,6 +845,9 @@ let w = 10;
   let w = 20;
 }
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 ReferenceError: Cannot access 'w' before initialization
@@ -708,6 +855,7 @@ ReferenceError: Cannot access 'w' before initialization
 **Explanation:** 
 The inner block has its own lexical environment. The inner `let w` is hoisted to the top of the block, eclipsing the outer `w`. Because it is in the TDZ, calling `console.log(w)` throws an error.
 
+</details>
 ---
 
 ## 38. Destructuring and the TDZ
@@ -716,6 +864,9 @@ The inner block has its own lexical environment. The inner `let w` is hoisted to
 let [a = b, b = 2] = [];
 console.log(a, b);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 ReferenceError: Cannot access 'b' before initialization
@@ -723,6 +874,7 @@ ReferenceError: Cannot access 'b' before initialization
 **Explanation:** 
 Destructuring assignments are evaluated sequentially from left to right. When checking `a = b`, the `b` parameter is uninitialized and lives in the TDZ.
 
+</details>
 ---
 
 ## 39. Blocks with `var`
@@ -733,13 +885,17 @@ if (true) {
 }
 console.log(leak);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 true
 ```
 **Explanation:** 
-Yes. `var` does not respect block scoping (`if`, `for`, `while`), only function scoping. 
+Yes. `var` does not respect block scoping (`if`, `for`, `while`), only function scoping.
 
+</details>
 ---
 
 ## 40. Labelled Blocks
@@ -751,6 +907,9 @@ myLabel: {
 }
 console.log(inner);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 ReferenceError: inner is not defined
@@ -758,6 +917,7 @@ ReferenceError: inner is not defined
 **Explanation:** 
 Labelled blocks are still blocks (`{...}`). `let` and `const` variables declared inside them will never leak out.
 
+</details>
 ---
 
 ## 41. Scope with `with()` statement
@@ -772,14 +932,18 @@ with (obj) {
 console.log(obj.a);
 console.log(b);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 1
 3
 ```
 **Explanation:** 
-The `with` statement creates a temporary scope using the object's properties. `let a = 2` creates a block-scoped variable that *does not* overwrite `obj.a`. `var b = 3` escapes the `with` block entirely. 
+The `with` statement creates a temporary scope using the object's properties. `let a = 2` creates a block-scoped variable that *does not* overwrite `obj.a`. `var b = 3` escapes the `with` block entirely.
 
+</details>
 ---
 
 ## 42. Closure Bugs Fixed by IIFEs
@@ -791,6 +955,9 @@ for (var i = 0; i < 3; i++) {
   })(i);
 }
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 0
@@ -800,6 +967,7 @@ for (var i = 0; i < 3; i++) {
 **Explanation:** 
 By wrapping the code in an IIFE (Immediately Invoked Function Expression) and passing `i` as an argument, they created a *new function scope* for each iteration, breaking the closure reference to the single global `i`. This is exactly what `let` does for block scopes.
 
+</details>
 ---
 
 ## 43. Calling `const` before `setTimeout`
@@ -811,6 +979,9 @@ function delay() {
 setTimeout(delay, 100);
 const x = 50;
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 50
@@ -818,6 +989,7 @@ const x = 50;
 **Explanation:** 
 This succeeds! The `setTimeout` delays execution for 100ms. By the time `delay()` is evaluated, the `const x = 50` line has already executed, freeing `x` from the TDZ.
 
+</details>
 ---
 
 ## 44. Arrow Function Closure Context
@@ -830,6 +1002,9 @@ function outer() {
 }
 outer()();
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 2
@@ -837,6 +1012,7 @@ outer()();
 **Explanation:** 
 The arrow function closes over the lexical environment of `outer()`, exactly where it was defined. Therefore, it remembers the `myVar` that was equal to `2`.
 
+</details>
 ---
 
 ## 45. Nested Functions and Shadowing
@@ -849,6 +1025,9 @@ function execute() {
 }
 execute();
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 undefined
@@ -856,6 +1035,7 @@ undefined
 **Explanation:** 
 Inside `execute`, `var val` is hoisted to the top. This local `val` completely shadows the outer `val = 1`. Since it's hoisted but unassigned, it is `undefined`.
 
+</details>
 ---
 
 ## 46. Modifying global `let`
@@ -865,6 +1045,9 @@ let myApp = "App1";
 window.myApp = "App2";
 console.log(myApp);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 "App1"
@@ -872,6 +1055,7 @@ console.log(myApp);
 **Explanation:** 
 Because `let` declarations do not attach to the global object, `myApp` and `window.myApp` are completely distinct references in global scope. Modifying the window property does not touch the lexical `let` variable.
 
+</details>
 ---
 
 ## 47. Re-assignment with Loop Conditions
@@ -883,6 +1067,9 @@ while (const c = count < 2) { // Is this allowed?
   count++;
 }
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 SyntaxError: Unexpected token 'const'
@@ -890,6 +1077,7 @@ SyntaxError: Unexpected token 'const'
 **Explanation:** 
 You cannot formulate declarations directly inside a `while()` conditional expression standard syntax in JavaScript. Only evaluations can go in the condition parentheses.
 
+</details>
 ---
 
 ## 48. Reassigning `arguments`
@@ -901,13 +1089,17 @@ function mut(a, b) {
 }
 mut(1, 2);
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 99
 ```
 **Explanation:** 
-In non-strict mode, reassigning `arguments[0]` actively mirrors and edits the bound function parameter `a`. (In strict mode, they are completely decoupled and `a` would remain 1). 
+In non-strict mode, reassigning `arguments[0]` actively mirrors and edits the bound function parameter `a`. (In strict mode, they are completely decoupled and `a` would remain 1).
 
+</details>
 ---
 
 ## 49. Shadowing Catch Clause
@@ -919,13 +1111,17 @@ catch(err) {
   console.log(err);
 }
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 SyntaxError: Identifier 'err' has already been declared
 ```
 **Explanation:** 
-The `catch(err)` creates a block-scoped binding for `err`. Redeclaring it using `let` in the identical block is strictly forbidden. 
+The `catch(err)` creates a block-scoped binding for `err`. Redeclaring it using `let` in the identical block is strictly forbidden.
 
+</details>
 ---
 
 ## 50. Exporting hoisted functions
@@ -934,9 +1130,14 @@ The `catch(err)` creates a block-scoped binding for `err`. Redeclaring it using 
 export { showData };
 function showData() { return "Data"; }
 ```
+<details>
+<summary><b>View Answer (Output & Explanation)</b></summary>
+
 **Output:**
 ```text
 // Valid!
 ```
 **Explanation:** 
 Function declarations are reliably hoisted to the top of module scope. Modules can smoothly export these hoisted bindings before their visual placement in the file.
+
+</details>
