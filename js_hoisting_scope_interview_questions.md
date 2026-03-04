@@ -1,6 +1,6 @@
 # JavaScript Interview Prep: 30 Tricky Questions on `var`, `let`, and `const` (Scope & Hoisting)
 
-This document contains a comprehensive list of 30 tricky JavaScript interview questions gathered from real-world tech interviews, focused on the differences, scope, and hoisting behaviors of `var`, `let`, and `const`, complete with outputs and explanations.
+This document contains a comprehensive list of 50 tricky JavaScript interview questions gathered from real-world tech interviews, focused on the differences, scope, and hoisting behaviors of `var`, `let`, and `const`, complete with outputs and explanations.
 
 ---
 
