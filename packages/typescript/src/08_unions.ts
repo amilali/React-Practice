@@ -34,3 +34,9 @@ function describeUserwithOperator(u: Admin | Customer){
         u.loyaltyPoints
     }
 }
+
+// array of unions
+const arrayofUnions: (string | number)[] = [1,'1'];
+
+// unions of array
+const unionsOfArray: (number[] | string[]) = Math.random() > 1 ? [1,2,3,] : ['a','b','c'];

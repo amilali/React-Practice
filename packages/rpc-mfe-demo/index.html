@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MFE Arch: Currying, Closures & RPC</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <div class="app-container">
+      <header>
+        <h1>Micro-Frontend Architecture Demo</h1>
+        <p>Demonstrating Closures, Currying, and the RP Pattern</p>
+      </header>
+      
+      <main>
+        <div class="panel">
+          <h2>UI App (Client MFE)</h2>
+          <div class="controls">
+            <input type="number" id="userIdInput" placeholder="Enter User ID (1 or 2)" min="1" max="2" value="1" />
+            <button id="fetchUserBtn">Fetch User via RPC</button>
+            <button id="createUserBtn">Create User (Emit Event)</button>
+          </div>
+          
+          <div class="result-box">
+            <h3>RPC Response:</h3>
+            <pre id="rpcResult">No user fetched yet.</pre>
+          </div>
+        </div>
+
+        <div class="panel event-panel">
+          <h2>Platform Event Bus Logs</h2>
+          <div id="eventLogs" class="logs"></div>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
