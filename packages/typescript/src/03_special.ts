@@ -24,9 +24,11 @@ function fail(msg: string): never {
 
 const valueAny : any = JSON.parse('{"x" : 1}');
 
-valueAny.notThere.toFixed(2) // it will break coz you used any and it will try to check in run time.
+valueAny.notThere.toFixed(2) // it will break in runtime coz you used 'any' and it will try to check in run time.
+// better to use 'unknown'
 
-// for dafety apart from ts types you can add optional chaining operator
+
+// for safety apart from ts types you can add optional chaining operator
 valueAny?.notThere?.toFixed(2)
 
 

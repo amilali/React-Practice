@@ -6,6 +6,7 @@ const ROLES = ['admin', 'user', 'operator'] as const;
 // typeof ROLES -> gets the type of the ROLES array
 // [number] -> extracts the type of any element in that array
 // Result: "admin" | "user" | "operator"
+// it derive union from array
 type Role = (typeof ROLES)[number];
 // typeof ROLES: This extracts the type of the variable.
 // [number]: why we add number as you see it is array of string means - "Give me the type of any element inside this array."

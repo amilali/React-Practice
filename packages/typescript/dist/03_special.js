@@ -16,6 +16,7 @@ function fail(msg) {
 // warning do not use "any" for callbacks, Try to ignore as much as possible.
 // anything can break au runtime
 const valueAny = JSON.parse('{"x" : 1}');
-valueAny.notThere.toFixed(2); // it will break coz you used any and it will try to check in run time.
-// for dafety apart from ts types you can add optional chaining operator
+valueAny.notThere.toFixed(2); // it will break in runtime coz you used 'any' and it will try to check in run time.
+// better to use 'unknown'
+// for safety apart from ts types you can add optional chaining operator
 valueAny?.notThere?.toFixed(2);
