@@ -22,7 +22,8 @@
 //| ----- | ----- | -------- |
 
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import debounce from "../utils/debounce";
 
 export default function App() {
   const [data, setData] = useState([]);
@@ -30,6 +31,12 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [keywords, setKeywords] = useState("");
 
+  const debouncedSearch = useCallback(
+    debounce((value) => {
+      setKeywords(value);
+    }, 2000),
+    [] // Empty dependency array so it's only created once
+  );
   useEffect(() => {
     // setLoading(true);
     // fetch("https://fakestoreapi.com/products")
@@ -39,19 +46,18 @@ export default function App() {
     //     setLoading(false);
     //   })
     //   .catch((e) => console.log(e));
-
-      async function fetchProducts(){
-        try {
-          setLoading(false);
-          const response = await fetch("https://fakestoreapi.com/products")
-          const data = await response.json();
-          setData(data);
-          setLoading(false);
-        } catch (error) {
-          throw new Error(error);
-        }
+    async function fetchProducts() {
+      try {
+        setLoading(true);
+        const response = await fetch("https://fakestoreapi.com/products");
+        const data = await response.json();
+        setData(data);
+        setLoading(false);
+      } catch (error) {
+        throw new Error(error);
       }
-      fetchProducts();
+    }
+    fetchProducts();
   }, []);
 
   let categoryData = [...new Set(data.map((e) => e.category))];
@@ -69,7 +75,6 @@ export default function App() {
   }
 
   if (loading) return <center>Loading....</center>;
-  
   return (
     <>
       <select onChange={(e) => setCategory(e.target.value)}>
@@ -83,7 +88,7 @@ export default function App() {
         name="Search"
         id=""
         placeholder="Search here"
-        onChange={(e) => setKeywords(e.target.value)}
+        onChange={(e) => debouncedSearch(e.target.value)}
       />
 
       {/* Table */}
