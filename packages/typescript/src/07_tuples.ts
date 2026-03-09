@@ -1,3 +1,6 @@
+// tuple is a special type of array with a fixed number of elements
+// where each element can have its own specific, predefined type.
+
 // `as const` makes the array readonly and keeps the exact string values (literal types)
 // without adding 'as const' typescript infer as string[] but after it take it as:
 // readonly ['admin', 'user', 'operator']
@@ -19,3 +22,19 @@ function setRole(r: Role) {
 setRole('operator'); // ✅ allowed because it is one of the values in ROLES
 setRole('admin');// ✅ allowed because it is one of the values in ROLES
 setRole('user');// ✅ allowed because it is one of the values in ROLES
+
+
+// what is the error:
+ let arr11: number[] = [1,2,1,3,1];
+
+
+let newarr: number[] = new Array();
+
+
+arr11.forEach((e,i)=>{
+    if(!newarr.includes(e)){
+        newarr.push(e);
+    }
+})
+
+console.log(newarr)
