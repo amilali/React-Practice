@@ -54,8 +54,10 @@ Now even if it is let, it can only be reassigned to:
 */
 
 const d2: Directions = 'right'
-move(d2) // ✅ works
-
+move(d2 as Directions) // ✅ works
+// or
+let d4: Directions = 'right'
+move(d4 as Directions) // ✅ works coz of assertion we typed narrow down to Direction type
 
 /*
 MENTAL MODEL
