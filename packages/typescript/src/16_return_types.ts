@@ -17,6 +17,22 @@ function booleanTonumber(n:boolean):number{
         return 2
     }
 }
-// A boolean can only be true or false. 
-// If you only had the if(n) block, and the input was false, 
+// A boolean can only be true or false.
+// If you only had the if(n) block, and the input was false,
 // the function would return undefined.
+
+
+async function loadCountInfered(){
+    return 1;
+}
+
+loadCountInfered().then((n)=> console.log(n));
+// if you hover it you will see it is returing Promise<number>
+
+
+// let p1 = new Promise((resolve)=>resolve('hi'));
+// p1.then((response)=>console.log(response))
+
+
+// let p2 = Promise.resolve('hi');
+// p2.then((response)=>console.log(response));
