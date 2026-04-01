@@ -19,6 +19,31 @@ let maybe : string | number;
 maybe = Math.random() > 0.5 ? "test" : 10;
 
 
+// ---------- another one ------------ //
+
+interface USer {
+    id: number,
+    name: string
+}
+
+const user007 : USer[] = [
+{
+    id: 1,
+    name: 'Amil'
+},
+{
+    id: 2,
+    name: 'Ram'
+}
+]
+
+const convertToUpperCase = (id: number): string => {
+    const userName = user007.find((e)=>e.id === id);
+    return userName?.name.toUpperCase() ?? "Not found";
+}
+
+
+console.log(convertToUpperCase(2));
 
 
 
