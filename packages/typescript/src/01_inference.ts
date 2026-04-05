@@ -1,7 +1,7 @@
 // typescript knows javascript
-// ts write types under the hood when you write
+// ts write types under the hood when you write : this is what we called type inference.
 
-let count = 0; // ts sees number and assign :number type
+let count = 0; // ts sees number and assign : number type
 
 const site = "google"; // same here it assign :string type
 const arr = [1,2,3];
