@@ -29,11 +29,10 @@ type test = {
 }
 
 // or
-
+// this makes it more generics
 type test1 = {
     [name: string] : string | number
 }
-
 
 const obj : test1 = {
     name: "AMil",

@@ -29,7 +29,7 @@ const big :bigint = 2n **63n -1n;
 // Symbol
 // A symbol is a unique and immutable primitive value.
 // Even if two symbols look the same, they are always different.
-const am = Symbol("id");
+const a = Symbol("uniqueId");
 const b = Symbol("id");
 // console.log(a === b); // false ❗
 
@@ -59,3 +59,4 @@ function yearsToDay(years: number):number{
     return years *365;
 }
 
+export {}  // what is the use of this
