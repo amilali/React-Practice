@@ -59,4 +59,4 @@ function yearsToDay(years: number):number{
     return years *365;
 }
 
-export {}  // what is the use of this
+export {}  
